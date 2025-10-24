@@ -30,7 +30,7 @@ The **GeniePlex AI Side Panel Extension** for Chrome provides an easy and conven
 
    - Open Chrome and navigate to `chrome://extensions/`.
    - Enable "Developer mode" using the toggle in the top-right corner.
-   - Click on "Load unpacked" and select the directory where you have cloned/downloaded the extension.
+   - Click on "Load unpacked" & select the directory where you have cloned/downloaded the extension.
 
 ## Usage
 
