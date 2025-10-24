@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "AI Side Panel",
+  "name": "GeniePlex AI Side Panel",
   "permissions": [
     "sidePanel",
     "activeTab",

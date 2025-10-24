@@ -15,6 +15,44 @@ export class NavBarManager {
     this.initializeDragAndDrop();
     this.initializePremiumScrolling();
     this.initializeLoadingState();
+    this.initializeActiveIndicator();
+  }
+
+  initializeActiveIndicator() {
+    const toolbar = document.getElementById('toolbar');
+    const activeIndicator = toolbar.querySelector('.active-indicator');
+    const buttons = toolbar.querySelectorAll('.btn');
+
+    const updateIndicator = (target) => {
+      if (!target) return;
+      const targetRect = target.getBoundingClientRect();
+      const toolbarRect = toolbar.getBoundingClientRect();
+      const offsetLeft = targetRect.left - toolbarRect.left;
+      
+      activeIndicator.style.transform = `translateX(${offsetLeft}px)`;
+    };
+
+    // Set initial position
+    const activeButton = toolbar.querySelector('.btn.active');
+    if (activeButton) {
+      updateIndicator(activeButton);
+    }
+
+    // Update on click
+    toolbar.addEventListener('click', (e) => {
+      const button = e.target.closest('.btn');
+      if (button) {
+        updateIndicator(button);
+      }
+    });
+
+    // Update on resize
+    new ResizeObserver(() => {
+      const currentActive = toolbar.querySelector('.btn.active');
+      if (currentActive) {
+        updateIndicator(currentActive);
+      }
+    }).observe(toolbar);
   }
 
   initializeButtonClickHandlers() {
@@ -90,7 +128,7 @@ export class NavBarManager {
       supportPage.style.display = 'none';
     }, 200);
 
-    // Show loading spinner and hide iframe
+    // Show loading loader and hide iframe
     this.toggleLoadingState(true);
 
     // Set up one-time load handler for this navigation
@@ -108,6 +146,9 @@ export class NavBarManager {
     // Update active button state
     toolbar.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
+
+    // Update the active indicator
+    this.updateActiveIndicator(button);
 
     // Persist last selected model (URL) for optional restore
     try {
@@ -137,27 +178,40 @@ export class NavBarManager {
 
     toolbar.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
     supportButton.classList.add('active');
+    this.updateActiveIndicator(supportButton);
+  }
+
+  updateActiveIndicator(target) {
+    const toolbar = document.getElementById('toolbar');
+    const activeIndicator = toolbar.querySelector('.active-indicator');
+    if (!target || !activeIndicator) return;
+
+    const targetRect = target.getBoundingClientRect();
+    const toolbarRect = toolbar.getBoundingClientRect();
+    const offsetLeft = targetRect.left - toolbarRect.left;
+    
+    activeIndicator.style.transform = `translateX(${offsetLeft}px)`;
   }
 
   initializeLoadingState() {
-    const loadingSpinner = document.querySelector('.loading-spinner');
+    const loadingSpinner = document.querySelector('.loader');
     const iframe = document.getElementById('main-iframe');
 
     if (!loadingSpinner || !iframe) {
-      console.error('Loading spinner or iframe not found for initialization');
+      console.error('Loader or iframe not found for initialization');
       return;
     }
 
-    // Initially show spinner and hide iframe
+    // Initially show loader and hide iframe
     this.toggleLoadingState(true);
   }
 
   toggleLoadingState(show) {
-    const loadingSpinner = document.querySelector('.loading-spinner');
+    const loadingSpinner = document.querySelector('.loader');
     const iframe = document.getElementById('main-iframe');
 
     if (loadingSpinner && iframe) {
-      loadingSpinner.style.display = show ? 'block' : 'none';
+      loadingSpinner.style.display = show ? 'flex' : 'none';
       iframe.style.display = show ? 'none' : 'block';
     }
   }
@@ -200,17 +254,19 @@ export class NavBarManager {
       } else if (firstVisibleButton) {
         url = firstVisibleButton.getAttribute('data-url');
       }
-    } catch {
-      url = firstVisibleButton ? firstVisibleButton.getAttribute('data-url') : defaultUrl;
-    }
-    iframe.src = url;
 
-    // Add active class to the first visible button if it exists
-    // Set active class to the button matching the chosen URL
-  const activeBtn = document.querySelector(`.btn[data-url="${url}"]`) || firstVisibleButton;
-    if (activeBtn) {
-      document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
-      activeBtn.classList.add('active');
+      // Set the active state on the correct button
+      const activeButton = document.querySelector(`.btn[data-url="${url}"]`) || firstVisibleButton;
+      if (activeButton) {
+        document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
+        activeButton.classList.add('active');
+        this.updateActiveIndicator(activeButton);
+      }
+
+      iframe.src = url;
+    } catch (e) {
+      console.error("Error loading initial URL:", e);
+      iframe.src = defaultUrl; // Fallback
     }
   }
 
@@ -230,28 +286,30 @@ export class NavBarManager {
 
     // Use event delegation for drag and drop to handle dynamic content
     toolbar.addEventListener('dragstart', (e) => {
-      if (e.target.classList.contains('btn')) {
-        draggedElement = e.target;
-        draggedElement.classList.add('dragging');
+      const target = e.target.closest('.btn');
+      if (target && target.draggable) {
+        draggedElement = target;
+        // Add a slight delay to allow the ghost image to be created
+        setTimeout(() => {
+          draggedElement.classList.add('dragging');
+        }, 0);
 
-        // Create ghost image
-        const ghostImage = e.target.cloneNode(true);
-        ghostImage.style.position = 'absolute';
-        ghostImage.style.top = '-1000px';
-        document.body.appendChild(ghostImage);
+        // Create a custom ghost image
+        const ghost = target.cloneNode(true);
+        ghost.classList.add('ghost');
+        document.body.appendChild(ghost);
+        e.dataTransfer.setDragImage(ghost, ghost.offsetWidth / 2, ghost.offsetHeight / 2);
 
-        // Remove ghost image after drag starts
-        requestAnimationFrame(() => {
-          if (document.body.contains(ghostImage)) {
-            document.body.removeChild(ghostImage);
-          }
-        });
+        // Clean up the ghost image after the drag operation
+        setTimeout(() => {
+          document.body.removeChild(ghost);
+        }, 0);
       }
     });
 
     toolbar.addEventListener('dragend', (e) => {
-      if (e.target.classList.contains('btn')) {
-        draggedElement?.classList.remove('dragging');
+      if (draggedElement) {
+        draggedElement.classList.remove('dragging');
         toolbar.querySelectorAll('.btn').forEach(btn => btn.classList.remove('drag-over'));
         draggedElement = null;
       }
@@ -259,12 +317,13 @@ export class NavBarManager {
 
     toolbar.addEventListener('dragover', (e) => {
       e.preventDefault();
-      if (!draggedElement || e.target === draggedElement) return;
-
       const dropTarget = e.target.closest('.btn');
-      if (dropTarget && dropTarget !== draggedElement) {
-        dropTarget.classList.add('drag-over');
+      if (!draggedElement || !dropTarget || dropTarget === draggedElement) {
+        return;
       }
+      // Clear previous drag-over states
+      toolbar.querySelectorAll('.btn.drag-over').forEach(btn => btn.classList.remove('drag-over'));
+      dropTarget.classList.add('drag-over');
     });
 
     toolbar.addEventListener('dragleave', (e) => {
@@ -276,47 +335,29 @@ export class NavBarManager {
 
     toolbar.addEventListener('drop', (e) => {
       e.preventDefault();
-      if (!draggedElement) return;
-
       const dropTarget = e.target.closest('.btn');
-      if (!dropTarget || dropTarget === draggedElement) return;
+      if (!draggedElement || !dropTarget || dropTarget === draggedElement) {
+        return;
+      }
 
-      // Get positions and reorder elements
+      // Reorder elements
       const allButtons = [...toolbar.querySelectorAll('.btn')];
-      const draggedPos = allButtons.indexOf(draggedElement);
-      const dropPos = allButtons.indexOf(dropTarget);
+      const draggedIndex = allButtons.indexOf(draggedElement);
+      const dropIndex = allButtons.indexOf(dropTarget);
 
-      if (draggedPos < dropPos) {
+      if (draggedIndex < dropIndex) {
         dropTarget.parentNode.insertBefore(draggedElement, dropTarget.nextSibling);
       } else {
         dropTarget.parentNode.insertBefore(draggedElement, dropTarget);
       }
 
-      // Modified save order logic to include split-view-btn and custom links
-      const newOrder = [...toolbar.querySelectorAll('.btn')]
-        .map(btn => {
-          if (btn.id === 'support-btn') return 'support';
-          if (btn.id === 'split-view-btn') return 'split-view';
-          if (btn.id === 'content-extractor-btn') return 'content-extractor';
-          return btn.getAttribute('data-url');
-        })
-        .filter(url => url !== null && url !== undefined && url !== ''); // Filter out null/undefined/empty values
-
-      if (window.saveManager) {
-        window.saveManager.saveButtonOrder(newOrder);
-      } else {
-        localStorage.setItem('buttonOrder', JSON.stringify(newOrder));
-      }
-
+      // Clean up classes
       dropTarget.classList.remove('drag-over');
+
+      // Save the new order
+      this.saveButtonOrder();
     });
 
-    // Ensure all buttons are draggable
-    toolbar.querySelectorAll('.btn').forEach(button => {
-      button.setAttribute('draggable', 'true');
-    });
-
-    // Mark as initialized
     toolbar.dragAndDropInitialized = true;
   }
 
@@ -671,7 +712,7 @@ export class NavBarManager {
     };
     setTimeout(attempt, 300);
 
-    // Also set up a one-time listener to try again after load spinner hides
+    // Also set up a one-time listener to try again after loader hides
     const onLoad = () => {
       attempt();
       iframe.removeEventListener('load', onLoad);

@@ -1,56 +1,65 @@
-/* Form Elements - Premium Animation System */
+/* Form Elements - Material 3 Inspired */
+
+/* General Card Styles for Settings */
+.settings-card {
+  background-color: var(--surface-container);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--outline-variant);
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--primary-color);
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+/* Restyle Toggle Items for better alignment and spacing */
+.toggle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 0.95rem;
+  color: var(--on-surface-variant);
+}
+
+.toggle-item span {
+  flex-grow: 1;
+}
+
+/* Filled Text Field - M3 Style */
 #custom-link-input,
-#shortcut-input,
 .shortcut-input {
-  background: #2a2a2a;
-  border: 1px solid #444;
-  color: var(--text-color);
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  background: var(--surface-container-high);
+  border: none;
+  color: var(--on-surface);
+  padding: 16px;
+  border-radius: 4px 4px 0 0;
+  font-size: 1rem;
   transition: 
     border-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo),
-    box-shadow calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+    background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  position: relative;
+  border-bottom: 1px solid var(--outline);
+}
+
+#custom-link-input:focus,
+.shortcut-input:focus {
+  outline: none;
+  background-color: var(--surface-container-highest);
+  border-bottom: 2px solid var(--primary-color);
 }
 
 #custom-link-input {
   flex-grow: 1;
-}
-
-#custom-link-input:focus,
-#shortcut-input:focus,
-.shortcut-input:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  background-color: #1a1a1a;
-  transform: translateY(calc(-1px * var(--motion-scale)));
-  box-shadow: 
-    0 0 0 2px color-mix(in srgb, var(--primary-color) 30%, transparent),
-    0 4px 12px color-mix(in srgb, var(--primary-color) 18%, transparent);
-}
-
-#custom-link-input:hover,
-#shortcut-input:hover,
-.shortcut-input:hover {
-  border-color: #666;
-  transform: translateY(calc(-0.5px * var(--motion-scale)));
-}
-
-#shortcut-input,
-.shortcut-input {
-  width: 150px;
-  cursor: pointer;
-}
-
-#shortcut-input.recording,
-.shortcut-input.recording {
-  border-color: var(--primary-color);
-  background-color: #1a1a1a;
-  color: var(--primary-color);
-  box-shadow: 0 0 12px rgba(0, 255, 170, 0.3);
-  animation: breathe calc(var(--slow-duration) * var(--motion-duration-multiplier)) var(--ease-in-out-quart) infinite;
 }
 
 .add-link-form {
@@ -59,122 +68,184 @@
   margin-bottom: 1rem;
 }
 
-.shortcut-input-wrapper {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+#add-link-btn {
+    background-color: var(--primary-color);
+    color: var(--on-primary);
+    border: none;
+    border-radius: 100px;
+    padding: 0 24px;
+    height: 40px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
 }
 
-/* Premium Language Selector */
+#add-link-btn:hover {
+    background-color: color-mix(in srgb, var(--primary-color) 90%, white);
+}
+
+/* Shortcut Section Styles */
+.shortcut-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.shortcut-button {
+    background: none;
+    border: none;
+    color: var(--on-surface-variant);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shortcut-button:hover {
+    background-color: var(--surface-container-high);
+    color: var(--on-surface);
+}
+
+.shortcut-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 0.95rem;
+  color: var(--on-surface-variant);
+}
+
+.shortcut-input {
+  text-align: right;
+  padding-right: 16px;
+}
+
+.shortcut-info {
+    font-size: 0.8rem;
+    color: var(--on-surface-variant);
+    opacity: 0.8;
+    margin-top: 16px;
+    line-height: 1.4;
+}
+
+/* Material 3 Select Menu */
 .select-wrapper {
   position: relative;
-  width: 140px;
+  background-color: var(--surface-container-high);
+  border-radius: 4px 4px 0 0;
+  border-bottom: 1px solid var(--outline);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  cursor: pointer;
 }
 
 .select-arrow {
   position: absolute;
-  right: 8px;
+  right: 16px;
   top: 50%;
   transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   pointer-events: none;
-  color: var(--text-color);
-  transition: 
-    transform calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-back),
-    opacity calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  color: var(--on-surface-variant);
+  transition: transform calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-back);
 }
 
 select {
   width: 100%;
-  padding: 10px 36px 10px 16px;
+  height: 100%;
   appearance: none;
   -webkit-appearance: none;
-  background: var(--accent-color);
-  border: 2px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  color: var(--text-color);
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: 
-    background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    border-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo),
-    box-shadow calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-select:hover {
-  background: var(--hover-color);
-  border-color: color-mix(in srgb, var(--primary-color) 40%, transparent);
-  transform: translateY(calc(-0.5px * var(--motion-scale)));
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--primary-color) 18%, transparent);
-}
-
-select:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  background: var(--hover-color);
-  transform: translateY(calc(-1px * var(--motion-scale)));
-  box-shadow: 
-  0 0 0 2px color-mix(in srgb, var(--primary-color) 30%, transparent),
-  0 4px 16px color-mix(in srgb, var(--primary-color) 20%, transparent);
-}
-
-select:hover + .select-arrow {
-  opacity: 1;
-  transform: translateY(-50%) scale(calc(1 + 0.1 * var(--motion-scale)));
-}
-
-select:focus + .select-arrow {
-  opacity: 1;
-  transform: translateY(-50%) rotate(calc(180deg * var(--motion-scale))) scale(calc(1 + 0.1 * var(--motion-scale)));
-}
-
-select option {
-  background: var(--bg-color);
-  color: var(--text-color);
-  padding: 12px;
-  font-size: 0.9rem;
+  background: transparent;
   border: none;
-  transition: 
-    background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  color: var(--on-surface);
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 0;
+  margin:0;
 }
 
-select option:checked {
-  background: linear-gradient(45deg, var(--primary-color), rgba(0, 255, 170, 0.35));
-  color: #0b0b0b; /* on-primary readable */
-  font-weight: 600;
+.select-wrapper:focus-within,
+.select-wrapper:hover {
+  border-bottom: 2px solid var(--primary-color);
 }
 
-/* Keyboard accessibility: clear focus for select and inputs */
-select:focus-visible,
-#custom-link-input:focus-visible,
-#shortcut-input:focus-visible,
-.shortcut-input:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 45%, transparent);
+.select-wrapper:focus-within .select-arrow {
+  transform: translateY(-50%) rotate(180deg);
 }
 
-/* Enhanced form animations for reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  #custom-link-input:focus,
-  #shortcut-input:focus,
-  .shortcut-input:focus,
-  select:focus {
-    transform: none;
-  }
-  
-  #shortcut-input.recording,
-  .shortcut-input.recording {
-    animation: none;
-    box-shadow: 0 0 0 2px var(--primary-color);
-  }
-  
-  select:hover + .select-arrow,
-  select:focus + .select-arrow {
-    transform: translateY(-50%);
-  }
+/* Material 3 Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--surface-container-highest);
+  border: 2px solid var(--outline);
+  transition: all calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  border-radius: 16px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 6px;
+  bottom: 6px;
+  background-color: var(--outline);
+  transition: all calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-spring);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+input:checked + .slider {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+  background-color: var(--on-primary);
+  height: 24px;
+  width: 24px;
+  left: 2px;
+  bottom: 2px;
+}
+
+/* Hover state for switch */
+.switch:hover .slider:before {
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--on-surface) 8%, transparent);
+}
+
+input:checked:hover + .slider:before {
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--primary-color) 20%, transparent);
+}
+
+/* Focus state for switch */
+input:focus-visible + .slider {
+  border-color: var(--primary-color);
 }

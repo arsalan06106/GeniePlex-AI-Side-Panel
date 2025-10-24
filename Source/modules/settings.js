@@ -214,27 +214,28 @@ export class SettingsManager {
       }
 
       // Load the appropriate language file
-      fetch(`_locales/${userLanguage}/messages.json`)
-        .then(response => response.json())
-        .then(messages => {
-          // Store globally for extractor
-          window._i18nMessages = messages;
-          document.querySelectorAll('[data-i18n]').forEach(element => {
-            const key = element.getAttribute('data-i18n');
-            if (messages[key]) {
-              element.innerHTML = messages[key].message;
-            }
-          });
-          // Update content extractor language if it exists
-          if (window.contentExtractorManager) {
-            window.contentExtractorManager.updateLanguage(messages);
-          }
-          resolve(); // Resolve the promise after translations are done
-        })
-        .catch(error => {
-          console.error('Error loading language file:', error);
-          resolve(); // Resolve even on error to continue initialization
-        });
+      // fetch(`_locales/${userLanguage}/messages.json`)
+      //   .then(response => response.json())
+      //   .then(messages => {
+      //     // Store globally for extractor
+      //     window._i18nMessages = messages;
+      //     document.querySelectorAll('[data-i18n]').forEach(element => {
+      //       const key = element.getAttribute('data-i18n');
+      //       if (messages[key]) {
+      //         element.innerHTML = messages[key].message;
+      //       }
+      //     });
+      //     // Update content extractor language if it exists
+      //     if (window.contentExtractorManager) {
+      //       window.contentExtractorManager.updateLanguage(messages);
+      //     }
+      //     resolve(); // Resolve the promise after translations are done
+      //   })
+      //   .catch(error => {
+      //     console.error('Error loading language file:', error);
+      //     resolve(); // Resolve even on error to continue initialization
+      //   });
+      resolve();
     });
   }
 

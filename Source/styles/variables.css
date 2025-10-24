@@ -1,10 +1,31 @@
 /* CSS Custom Properties and Base Styles */
 :root {
-  --bg-color: #0f0f0f;
-  --text-color: #ffffff;
-  --accent-color: #1e1e1e;
-  --hover-color: #2a2a2a;
-  --primary-color: #00ffaa;
+  /* M3 Core Colors */
+  --primary-color: #89b4fa; /* Google Blue */
+  --on-primary: #002f6c;
+  --primary-container: #333333;
+  --on-primary-container: #d8e2ff;
+
+  /* M3 Surface Colors */
+  --surface-dim: #111318;
+  --surface: #111318;
+  --surface-bright: #37393e;
+  --surface-container-lowest: #0c0e13;
+  --surface-container-low: #191c20;
+  --surface-container: #1d2024;
+  --surface-container-high: #282a2f;
+  --surface-container-highest: #33353a;
+  --on-surface: #e2e2e6;
+  --on-surface-variant: #c2c7d0;
+  
+  /* M3 Outline */
+  --outline: #8e9199;
+  --outline-variant: #42474e;
+
+  --bg-color: var(--surface-container-low);
+  --text-color: var(--on-surface);
+  --accent-color: var(--surface-container);
+  --hover-color: var(--surface-container-high);
   
   /* Animation System - Premium Timing */
   --spring-duration: 280ms;

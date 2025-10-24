@@ -1,105 +1,88 @@
-/* Button Styles and Interactions - Premium Animation System */
+/* Button Styles and Interactions - Material 3 Inspired */
 .btn {
   background-color: transparent;
   color: var(--text-color);
   border: none;
-  padding: 0.5rem;
+  padding: 0;
   cursor: pointer;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* Allow state layer to expand */
   cursor: grab;
   touch-action: none;
   user-select: none;
   transform-origin: center;
   will-change: transform, opacity;
-  border-radius: 8px;
-  min-width: 60px;
-  max-width: 80px;
+  border-radius: 100px; /* Fully rounded for pill shape */
+  width: 64px; /* M3 standard touch target width */
+  height: 32px; /* M3 standard touch target height */
   flex-shrink: 0;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   transition: 
-    transform calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    opacity calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    box-shadow calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+    background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
 }
 
-.btn::after {
-  content: "";
+.btn .state-layer {
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: var(--primary-color);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--primary-color);
+  opacity: 0;
+  transform: scale(0.8);
   transition: 
-    width calc(var(--spring-duration) * var(--motion-duration-multiplier)) var(--ease-spring),
-    transform calc(var(--spring-duration) * var(--motion-duration-multiplier)) var(--ease-spring);
-  transform: translateX(-50%);
-  border-radius: 1px;
+    transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
+    opacity calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
 }
 
-.btn:hover::after {
-  width: 100%;
+.btn:hover .state-layer {
+  opacity: 0.08; /* M3 hover opacity */
+  transform: scale(1);
 }
 
-.btn.active::after {
-  width: 100%;
-  background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+.btn:active .state-layer {
+  opacity: 0.12; /* M3 pressed opacity */
+  transform: scale(1);
+  transition-duration: calc(var(--quick-duration) * var(--motion-duration-multiplier) * 0.5);
 }
 
-.btn svg {
+.btn.active .state-layer {
+  opacity: 0.16; /* M3 active state opacity */
+  transform: scale(1);
+}
+
+.toolbar-icon {
+  position: relative; /* Ensure icon is above state layer */
+  z-index: 1;
   width: 24px;
   height: 24px;
-  margin-bottom: 0.25rem;
   transition: 
     transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo);
 }
 
-.btn img {
-  width: 20px;
-  height: 20px;
-  margin-bottom: 0.25rem;
-  flex-shrink: 0;
-  transition: 
-    transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo);
+.toolbar-icon.invert-color {
+  filter: brightness(0) invert(1);
 }
 
 .btn span {
-  font-size: 0.7rem;
-  line-height: 1.2;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-top: 2px;
-  color: var(--text-color);
-  font-weight: 400;
+  display: none;
 }
 
-.btn:hover svg {
-  transform: translateY(calc(-2px * var(--motion-scale))) scale(calc(1 + 0.05 * var(--motion-scale)));
+/* Remove old hover/active styles */
+.btn:hover {
+  background-color: transparent;
 }
 
-.btn:hover img {
-  transform: translateY(calc(-2px * var(--motion-scale))) scale(calc(1 + 0.05 * var(--motion-scale)));
+.btn.active {
+  background-color: transparent;
+  border-color: transparent;
 }
 
-.btn:active svg {
-  transform: translateY(calc(-1px * var(--motion-scale))) scale(calc(1 + 0.02 * var(--motion-scale)));
-}
-
-.btn:active img {
-  transform: translateY(calc(-1px * var(--motion-scale))) scale(calc(1 + 0.02 * var(--motion-scale)));
-}
-
-/* Enhanced Drag and Drop Animations */
+/* Keep drag and drop animations */
 .btn.dragging {
   opacity: 0.88;
   cursor: grabbing;
@@ -131,12 +114,7 @@
   animation: glow-pulse calc(var(--slow-duration) * 3 * var(--motion-duration-multiplier)) var(--ease-in-out-quart) infinite;
 }
 
-/* Hover effects (disabled during drag) */
-.btn:not(.dragging):hover {
-  transform: translateY(calc(-1px * var(--motion-scale))) scale(calc(1 + 0.01 * var(--motion-scale)));
-  background-color: var(--hover-color);
-  box-shadow: 0 4px 16px color-mix(in srgb, var(--primary-color) 18%, transparent);
-}
+
 
 .btn:not(.dragging):active {
   transform: translateY(0) scale(0.98);

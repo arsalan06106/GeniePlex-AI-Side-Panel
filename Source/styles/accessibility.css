@@ -25,7 +25,7 @@
 
   /* Keep functional opacity changes for loading states */
   iframe.loading,
-  .loading-spinner,
+  .loader,
   .notification {
     transition: opacity 150ms ease-out !important;
   }

@@ -58,30 +58,6 @@
   transform: scale(calc(1 + 0.05 * var(--motion-scale))) rotate(calc(1deg * var(--motion-scale)));
 }
 
-.toggle-container,
-.custom-links-container,
-.shortcut-container {
-  width: 100%;
-  max-width: 300px;
-  background: var(--accent-color);
-  padding: 1.2rem;
-  border-radius: 12px;
-  border: 1px solid #333;
-  margin: 1rem 0;
-  transition: 
-    transform calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    box-shadow calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    border-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
-}
-
-.toggle-container:hover,
-.custom-links-container:hover,
-.shortcut-container:hover {
-  transform: translateY(calc(-2px * var(--motion-scale)));
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
 /* Premium-gated theme section (support legacy and new id) */
 #theme-section.gated,
 #theme-settings-section.gated {
@@ -93,16 +69,6 @@
   cursor: not-allowed;
 }
 
-.toggle-container h3,
-.custom-links-container h3,
-.shortcut-container h3 {
-  color: var(--text-color);
-  font-size: 1rem;
-  margin-bottom: 1.2rem;
-  text-align: left;
-  transition: color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
-}
-
 #custom-links-list .toggle-item {
   animation: smooth-fade-in calc(var(--spring-duration) * var(--motion-duration-multiplier)) var(--ease-spring);
   transform-origin: top;
@@ -112,104 +78,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.toggle-item,
-.shortcut-item {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 0;
-  justify-content: space-between;
-  border-radius: 6px;
-  transition: 
-    background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo);
-}
-
-.toggle-item:hover,
-.shortcut-item:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  transform: translateX(calc(2px * var(--motion-scale)));
-}
-
-.toggle-item span,
-.shortcut-item span {
-  color: #ccc;
-  font-size: 0.9rem;
-  transition: color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
-}
-
-/* Modern toggle switch style with premium animations */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 46px;
-  height: 24px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-/* Toggle switch animations */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #444;
-  transition: 
-    background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    box-shadow calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
-  border-radius: 24px;
-  overflow: hidden;
-}
-
-.slider:hover {
-  box-shadow: 0 0 12px rgba(0, 255, 170, 0.3);
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 
-    transform calc(var(--spring-duration) * var(--motion-duration-multiplier)) var(--ease-spring),
-    box-shadow calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-input:checked + .slider {
-  background-color: var(--primary-color);
-  box-shadow: 0 0 16px color-mix(in srgb, var(--primary-color) 40%, transparent);
-}
-
-input:checked + .slider:before {
-  transform: translateX(22px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Keyboard focus ring for toggles */
-.switch input:focus-visible + .slider {
-  outline: none;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 45%, transparent);
-}
-
-.shortcut-info {
-  font-size: 0.8rem;
-  color: #888;
-  margin-top: 0.5rem;
-  text-align: left;
-  transition: color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
 }
 
 .notification {
@@ -241,24 +109,55 @@ input:checked + .slider:before {
   animation: subtle-bounce calc(var(--slow-duration) * 2 * var(--motion-duration-multiplier)) var(--ease-in-out-quart) infinite;
 }
 
-/* Premium Loading spinner */
-.loading-spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40px;
-  height: 40px;
-  z-index: 1000;
+/* Material Design Circular Loader */
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px;
+    height: 48px;
+    z-index: 1000;
 }
 
-.loading-spinner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 2px solid var(--accent-color);
-  border-top-color: var(--primary-color);
-  animation: smooth-spin calc(var(--slow-duration) * 2 * var(--motion-duration-multiplier)) var(--ease-in-out-quart) infinite;
-  box-shadow: 0 0 12px rgba(0, 255, 170, 0.3);
+.circular-loader {
+    animation: rotate 2s linear infinite;
+    height: 100%;
+    transform-origin: center center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.loader-path {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    animation: dash 1.5s ease-in-out infinite;
+    stroke-linecap: round;
+    stroke: var(--primary-color);
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px;
+    }
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px;
+    }
 }
