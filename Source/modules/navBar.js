@@ -1,16 +1,26 @@
 // Navigation Bar Module
 export class NavBarManager {
   constructor() {
-    this.init();
     // Make this instance globally available
     window.navBarManager = this;
-  // Debounced commit delay for shortcut-based model switching (ms)
-  this._shortcutNavDelay = 450;
-  this._switchCommitTimer = null;
-  this._pendingTarget = null;
+    // Debounced commit delay for shortcut-based model switching (ms)
+    this._shortcutNavDelay = 450;
+    this._switchCommitTimer = null;
+    this._pendingTarget = null;
+    this._initialized = false;
+    // Track timers and animation frames for proper cleanup
+    this._scrollTimeout = null;
+    this._scrollRafId = null;
+    this._currentModelLabel = 'AI';
   }
 
   init() {
+    // Prevent double initialization
+    if (this._initialized) {
+      return;
+    }
+    this._initialized = true;
+    
     this.initializeButtonClickHandlers();
     this.initializeDragAndDrop();
     this.initializePremiumScrolling();
@@ -38,13 +48,7 @@ export class NavBarManager {
       updateIndicator(activeButton);
     }
 
-    // Update on click
-    toolbar.addEventListener('click', (e) => {
-      const button = e.target.closest('.btn');
-      if (button) {
-        updateIndicator(button);
-      }
-    });
+    // Note: Click handling is now done in initializeButtonClickHandlers for better performance
 
     // Update on resize
     new ResizeObserver(() => {
@@ -57,27 +61,43 @@ export class NavBarManager {
 
   initializeButtonClickHandlers() {
     const toolbar = document.getElementById('toolbar');
-    const iframe = document.getElementById('main-iframe');
+    const iframeContainer = document.getElementById('iframe-container');
     const supportPage = document.getElementById('support-page');
     const supportBtn = document.getElementById('support-btn');
     const splitViewBtn = document.getElementById('split-view-btn');
 
-    if (!toolbar || !iframe || !supportPage || !supportBtn || !splitViewBtn) {
+    if (!toolbar || !iframeContainer || !supportPage || !supportBtn || !splitViewBtn) {
       console.error('Required elements not found for navigation initialization');
       return;
     }
 
-    // Use event delegation to handle clicks on all buttons (static and dynamic)
+    // Combined event delegation for clicks - handles both indicator update and navigation
     toolbar.addEventListener('click', (e) => {
+      // Check what was clicked
       const button = e.target.closest('.btn[data-url]');
       const supportButton = e.target.closest('#support-btn');
+      const splitButton = e.target.closest('#split-view-btn');
 
-      if (button && button.hasAttribute('data-url')) {
-        this.handleServiceButtonClick(button, iframe, supportPage, splitViewBtn, supportBtn, toolbar);
-      } else if (supportButton) {
-        this.handleSupportButtonClick(iframe, supportPage, toolbar, supportButton);
+      // SKIP processing for split view button - it has its own handler
+      if (splitButton) {
+        console.log('NavBar: Split button clicked, skipping navbar processing');
+        // Don't call e.stopPropagation() or preventDefault() - let split view handler work
+        return;
       }
-      // Note: Split view button handler is in the split view module
+
+      const anyButton = e.target.closest('.btn');
+
+      // Update active indicator for any button click (except split view)
+      if (anyButton && !splitButton) {
+        this.updateActiveIndicator(anyButton);
+      }
+
+      // Handle specific button actions
+      if (button && button.hasAttribute('data-url')) {
+        this.handleServiceButtonClick(button, iframeContainer, supportPage, splitViewBtn, supportBtn, toolbar);
+      } else if (supportButton) {
+        this.handleSupportButtonClick(iframeContainer, supportPage, toolbar, supportButton);
+      }
     });
 
   // Runtime message handling is centralized in sidepanel-modular.js
@@ -108,7 +128,7 @@ export class NavBarManager {
     });
   }
 
-  handleServiceButtonClick(button, iframe, supportPage, splitViewBtn, supportBtn, toolbar) {
+  handleServiceButtonClick(button, iframeContainer, supportPage, splitViewBtn, supportBtn, toolbar) {
     // If there is a pending delayed switch (from shortcuts), cancel it and commit now via this click
     if (this._switchCommitTimer) {
       clearTimeout(this._switchCommitTimer);
@@ -116,6 +136,7 @@ export class NavBarManager {
       this._pendingTarget = null;
     }
   const url = button.getAttribute('data-url');
+  const modelLabel = this.getModelLabelFromButton(button);
 
     // Update split view button state
     splitViewBtn.disabled = false;
@@ -128,20 +149,7 @@ export class NavBarManager {
       supportPage.style.display = 'none';
     }, 200);
 
-    // Show loading loader and hide iframe
-    this.toggleLoadingState(true);
-
-    // Set up one-time load handler for this navigation
-    const handleLoad = () => {
-      this.toggleLoadingState(false);
-      iframe.removeEventListener('load', handleLoad);
-    };
-
-    iframe.addEventListener('load', handleLoad);
-
-    // Set new URL
-    iframe.src = url;
-    iframe.style.display = 'block';
+  this.switchToIframe(url, modelLabel);
 
     // Update active button state
     toolbar.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
@@ -156,10 +164,13 @@ export class NavBarManager {
     } catch { }
 
     // After switching, try to focus the search box inside the destination site
-    this.focusSearchInIframe(iframe, url);
+    const activeIframe = document.querySelector(`#iframe-container > iframe[data-url="${url}"]`);
+    if (activeIframe) {
+      this.focusSearchInIframe(activeIframe, url);
+    }
   }
 
-  handleSupportButtonClick(iframe, supportPage, toolbar, supportButton) {
+  handleSupportButtonClick(iframeContainer, supportPage, toolbar, supportButton) {
     // Cancel any pending delayed navigation when opening support
     if (this._switchCommitTimer) {
       clearTimeout(this._switchCommitTimer);
@@ -168,7 +179,10 @@ export class NavBarManager {
     }
     // Handle support button click
     this.toggleLoadingState(false); // Hide spinner for support page
-    iframe.style.display = 'none';
+    
+    // Hide all iframes
+    const iframes = iframeContainer.querySelectorAll('iframe');
+    iframes.forEach(iframe => iframe.style.display = 'none');
 
     // Show support page with smooth animation
     supportPage.style.display = 'flex';
@@ -179,6 +193,96 @@ export class NavBarManager {
     toolbar.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
     supportButton.classList.add('active');
     this.updateActiveIndicator(supportButton);
+  }
+
+  getModelLabelFromButton(button) {
+    if (!button) {
+      return 'AI';
+    }
+
+    const dataLabel = button.dataset?.label;
+    if (dataLabel) {
+      return dataLabel;
+    }
+
+    const imgAlt = button.querySelector('img')?.alt;
+    if (imgAlt) {
+      return imgAlt.replace(/\s*icon$/i, '').trim() || 'AI';
+    }
+
+    const text = button.textContent?.trim();
+    if (text) {
+      return text;
+    }
+
+    return 'AI';
+  }
+
+  getModelLabelForUrl(url) {
+    if (!url) {
+      return this._currentModelLabel || 'AI';
+    }
+
+    const candidates = document.querySelectorAll('.btn[data-url]');
+    for (const btn of candidates) {
+      if (btn.getAttribute('data-url') === url) {
+        return this.getModelLabelFromButton(btn);
+      }
+    }
+
+    return this._currentModelLabel || 'AI';
+  }
+
+  switchToIframe(url, modelLabel) {
+    const iframeContainer = document.getElementById('iframe-container');
+    if (!iframeContainer) {
+      console.error('iframe-container not found');
+      return;
+    }
+    
+    const iframes = iframeContainer.querySelectorAll('iframe');
+    let targetIframe = iframeContainer.querySelector(`iframe[data-url="${url}"]`);
+
+    const label = modelLabel || this.getModelLabelForUrl(url);
+    this._currentModelLabel = label;
+
+    // Hide all iframes
+    iframes.forEach(iframe => {
+      iframe.style.display = 'none';
+    });
+
+    if (targetIframe) {
+      // Iframe already cached - show instantly, NO loader
+      targetIframe.style.display = 'block';
+      this.toggleLoadingState(false);
+    } else {
+      // New iframe - show loader
+      this.toggleLoadingState(true, label);
+      
+      targetIframe = document.createElement('iframe');
+      targetIframe.src = url;
+      targetIframe.setAttribute('data-url', url);
+      targetIframe.setAttribute('allow', 'clipboard-write');
+      targetIframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups allow-downloads');
+      targetIframe.setAttribute('data-model-label', label);
+      targetIframe.style.display = 'block';
+      iframeContainer.appendChild(targetIframe);
+
+      const handleLoad = () => {
+        this.toggleLoadingState(false);
+        targetIframe.removeEventListener('load', handleLoad);
+        targetIframe.removeEventListener('error', handleError);
+      };
+
+      const handleError = () => {
+        this.toggleLoadingState(false);
+        targetIframe.removeEventListener('load', handleLoad);
+        targetIframe.removeEventListener('error', handleError);
+      };
+
+      targetIframe.addEventListener('load', handleLoad);
+      targetIframe.addEventListener('error', handleError);
+    }
   }
 
   updateActiveIndicator(target) {
@@ -195,47 +299,73 @@ export class NavBarManager {
 
   initializeLoadingState() {
     const loadingSpinner = document.querySelector('.loader');
-    const iframe = document.getElementById('main-iframe');
 
-    if (!loadingSpinner || !iframe) {
-      console.error('Loader or iframe not found for initialization');
+    if (!loadingSpinner) {
+      console.error('Loader not found for initialization');
       return;
     }
 
-    // Initially show loader and hide iframe
-    this.toggleLoadingState(true);
+    // Loader is visible by default in HTML/CSS
+    // This ensures navbar shows immediately while AI content loads
+    // Only ensuring proper z-index here
+    loadingSpinner.style.zIndex = '100';
   }
 
-  toggleLoadingState(show) {
+  toggleLoadingState(show, label) {
     const loadingSpinner = document.querySelector('.loader');
-    const iframe = document.getElementById('main-iframe');
+    const loaderLabel = document.getElementById('loader-label');
 
-    if (loadingSpinner && iframe) {
-      loadingSpinner.style.display = show ? 'flex' : 'none';
-      iframe.style.display = show ? 'none' : 'block';
+    if (!loadingSpinner) {
+      console.error('Loader not found for toggleLoadingState');
+      return;
+    }
+
+    if (show) {
+      if (loaderLabel) {
+        const defaultText = loaderLabel.getAttribute('data-default-text') || 'Loading…';
+        loaderLabel.textContent = label ? `Loading ${label}…` : defaultText;
+      }
+      loadingSpinner.style.display = 'flex';
+      loadingSpinner.setAttribute('aria-hidden', 'false');
+    } else {
+      loadingSpinner.style.display = 'none';
+      loadingSpinner.setAttribute('aria-hidden', 'true');
+      if (loaderLabel) {
+        const defaultText = loaderLabel.getAttribute('data-default-text') || loaderLabel.textContent;
+        loaderLabel.textContent = defaultText;
+      }
     }
   }
 
   loadInitialUrl() {
-    const iframe = document.getElementById('main-iframe');
-  const firstVisibleButton = document.querySelector('.btn[data-url]:not([style*="display: none"])');
+    const iframeContainer = document.getElementById('iframe-container');
+    const supportPage = document.getElementById('support-page');
+    
+    // Get ALL buttons with data-url attribute
+    const allButtons = document.querySelectorAll('.btn[data-url]');
+    
+    // Find the FIRST visible button by checking display style
+    let firstVisibleButton = null;
+    for (const btn of allButtons) {
+      const style = window.getComputedStyle(btn);
+      if (style.display !== 'none') {
+        firstVisibleButton = btn;
+        break; // Found the first visible one, stop looking
+      }
+    }
+    
     const defaultUrl = "https://chatgpt.com/";
 
-    if (!iframe) {
-      console.error('Main iframe not found');
+    if (!iframeContainer) {
+      console.error('iframe-container not found');
       return;
     }
 
-    // Show loading state immediately
-    this.toggleLoadingState(true);
-
-    // Set up load handler before setting src
-    const handleLoad = () => {
-      this.toggleLoadingState(false);
-      iframe.removeEventListener('load', handleLoad);
-    };
-
-    iframe.addEventListener('load', handleLoad);
+    // Hide support page initially
+    if (supportPage) {
+      supportPage.style.display = 'none';
+      supportPage.classList.remove('active');
+    }
 
     // Determine initial URL based on settings: remember last model if enabled
     let url = defaultUrl;
@@ -252,6 +382,7 @@ export class NavBarManager {
           url = firstVisibleButton.getAttribute('data-url');
         }
       } else if (firstVisibleButton) {
+        // Use the FIRST visible button's URL
         url = firstVisibleButton.getAttribute('data-url');
       }
 
@@ -263,10 +394,16 @@ export class NavBarManager {
         this.updateActiveIndicator(activeButton);
       }
 
-      iframe.src = url;
+      // Use the same iframe management system as button clicks
+      const initialLabel = this.getModelLabelFromButton(activeButton) || this.getModelLabelForUrl(url);
+      this.switchToIframe(url, initialLabel);
+      
+      // Save the selected model
+      window.saveManager?.saveLastSelectedModel(url);
     } catch (e) {
-      console.error("Error loading initial URL:", e);
-      iframe.src = defaultUrl; // Fallback
+    console.error("Error loading initial URL:", e);
+    // Fallback to default
+    this.switchToIframe(defaultUrl, this.getModelLabelForUrl(defaultUrl));
     }
   }
 
@@ -361,6 +498,20 @@ export class NavBarManager {
     toolbar.dragAndDropInitialized = true;
   }
 
+  saveButtonOrder() {
+    const toolbar = document.getElementById('toolbar');
+    if (!toolbar) return;
+
+    const orderedButtons = Array.from(toolbar.querySelectorAll('.btn[data-url]'));
+    const order = orderedButtons.map(btn => btn.getAttribute('data-url'));
+    
+    try {
+      window.saveManager?.saveButtonOrder(order);
+    } catch (error) {
+      console.error('Error saving button order from NavBarManager:', error);
+    }
+  }
+
   initializePremiumScrolling() {
     const toolbar = document.getElementById('toolbar');
     if (!toolbar) {
@@ -422,8 +573,15 @@ export class NavBarManager {
       // Update scroll indicators
       this.updateScrollIndicators(toolbar);
 
-      // Clear existing timeout
-      clearTimeout(scrollTimeout);
+      // Clear existing timeout and track it
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+      
+      // Clear existing RAF and track it
+      if (this._scrollRafId) {
+        cancelAnimationFrame(this._scrollRafId);
+      }
 
       // Set timeout to end scrolling state
       scrollTimeout = setTimeout(() => {
@@ -432,7 +590,9 @@ export class NavBarManager {
         rafId = requestAnimationFrame(() => {
           this.updateScrollIndicators(toolbar);
         });
+        this._scrollRafId = rafId;
       }, 150);
+      this._scrollTimeout = scrollTimeout;
     };
 
     // Passive scroll listener for better performance

@@ -34,6 +34,7 @@
   background-color: var(--primary-color);
   opacity: 0;
   transform: scale(0.8);
+  pointer-events: none; /* Don't interfere with button clicks */
   transition: 
     transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
     opacity calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
@@ -60,6 +61,7 @@
   z-index: 1;
   width: 24px;
   height: 24px;
+  pointer-events: none; /* Don't interfere with button clicks */
   transition: 
     transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo);
 }

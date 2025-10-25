@@ -146,6 +146,7 @@ export class CustomLinkManager {
       const button = document.createElement('button');
       button.className = 'btn';
       button.setAttribute('data-url', link.url);
+  button.setAttribute('data-label', link.name);
       button.setAttribute('data-custom-id', link.id);
       button.setAttribute('draggable', 'true');
       button.style.display = (link.enabled !== false) ? 'flex' : 'none';

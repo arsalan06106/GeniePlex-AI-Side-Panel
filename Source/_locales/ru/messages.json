@@ -15,11 +15,6 @@
     "deleteConfirmation": {
         "message": "Вы уверены, что хотите удалить \"$1\"?"
     },
-    "supportTitle": { "message": "Нам Нужна Ваша Поддержка" },
-    "supportDescription": {
-        "message": "Создано с ❤️ и бесчисленными часами преданности. Ваша поддержка помогает нам продолжать создавать удивительные инструменты для всех."
-    },
-    "supportButton": { "message": "Купить Мне Кофе" },
     "extractButton": { "message": "Извлечь" },
     "extractButtonTitle": { "message": "Извлечь и скопировать содержимое с текущей страницы" },
     "extractButtonExtracting": { "message": "Извлечение..." },

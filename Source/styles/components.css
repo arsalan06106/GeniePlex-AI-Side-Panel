@@ -11,7 +11,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 100;
   opacity: 1;
   transform: translateY(0);
   transition: 
@@ -20,6 +20,7 @@
 }
 
 .support-page.active {
+  display: flex;
   opacity: 1;
   transform: translateY(0);
 }
@@ -110,14 +111,19 @@
 }
 
 /* Material Design Circular Loader */
+/* Visible by default - navbar shows immediately while AI content loads */
 .loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 48px;
-    height: 48px;
-    z-index: 1000;
+  display: flex; /* Visible by default */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  pointer-events: none;
+  justify-content: center;
+  align-items: center;
+  background: var(--surface-color, #1a1a1a);
 }
 
 .circular-loader {
@@ -140,6 +146,7 @@
     stroke-linecap: round;
     stroke: var(--primary-color);
 }
+
 
 @keyframes rotate {
     100% {

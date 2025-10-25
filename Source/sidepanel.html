@@ -4,72 +4,195 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GeniePlex AI Side Panel</title>
+    <!-- Critical inline CSS for instant visibility - NO FOUC! -->
+    <style>
+      /* Instant visibility - before external CSS loads */
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: #111318;
+        color: #e2e2e6;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+      
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+      
+      .toolbar {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 4px;
+        background-color: #1d2024;
+        border-bottom: 1px solid #42474e;
+        position: relative;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+      
+      .btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        position: relative;
+        border-radius: 100px;
+        min-width: 64px;
+        height: 48px;
+      }
+      
+      .toolbar-icon {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+      
+      .content {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        background-color: #111318;
+      }
+      
+      #iframe-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        background-color: #111318;
+      }
+      
+      .loader {
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 100;
+        justify-content: center;
+        align-items: center;
+        background: #1a1a1a;
+      }
+      
+      .circular-loader {
+        animation: rotate 2s linear infinite;
+        height: 64px !important;
+        width: 64px !important;
+        transform-origin: center center;
+      }
+      
+      .loader-path {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+        animation: dash 1.5s ease-in-out infinite;
+        stroke-linecap: round;
+        stroke: #89b4fa;
+        fill: none;
+        stroke-width: 3 !important;
+      }
+      
+      @keyframes rotate {
+        100% { transform: rotate(360deg); }
+      }
+      
+      @keyframes dash {
+        0% { stroke-dasharray: 1, 200; stroke-dashoffset: 0; }
+        50% { stroke-dasharray: 89, 200; stroke-dashoffset: -35px; }
+        100% { stroke-dasharray: 89, 200; stroke-dashoffset: -124px; }
+      }
+      
+      /* Support page hidden by default */
+      .support-page {
+        display: none;
+      }
+    </style>
+    <!-- Load full CSS asynchronously - won't block rendering -->
     <link rel="stylesheet" href="sidepanel-modular.css" />
   </head>
   <body>
     <div class="container">
       <nav class="toolbar" id="toolbar">
         <div class="active-indicator"></div>
-        <button class="btn" data-url="https://chatgpt.com/"
-          draggable="true">
-          <div class="state-layer"></div>
-          <img src="logos/chatgpt.svg" alt="ChatGPT Icon" class="toolbar-icon invert-color" />
-          <!-- <span>ChatGPT</span> -->
-        </button>
-        <button class="btn" data-url="https://gemini.google.com/"
+        <button class="btn" data-url="https://gemini.google.com/" data-label="Gemini"
           draggable="true">
           <div class="state-layer"></div>
           <img src="logos/gemini.svg" alt="Gemini Icon" class="toolbar-icon" draggable="false" />
           <!-- <span>Gemini</span> -->
         </button>
-        <button class="btn" data-url="https://claude.ai/new" draggable="true">
+        <button class="btn" data-url="https://chatgpt.com/" data-label="ChatGPT"
+          draggable="true">
+          <div class="state-layer"></div>
+          <img src="logos/chatgpt.svg" alt="ChatGPT Icon" class="toolbar-icon invert-color" />
+          <!-- <span>ChatGPT</span> -->
+        </button>
+  <button class="btn" data-url="https://claude.ai/new" data-label="Claude" draggable="true">
           <div class="state-layer"></div>
           <img src="logos/claude.svg" alt="Claude Icon" class="toolbar-icon" draggable="true" />
           <!-- <span>Claude</span> -->
         </button>
-        <button class="btn" data-url="https://copilot.microsoft.com/chat"
+        <button class="btn" data-url="https://copilot.microsoft.com/chat" data-label="Copilot"
           draggable="true">
           <div class="state-layer"></div>
           <img src="logos/copilot.svg" alt="Copilot Icon" class="toolbar-icon" draggable="true" />
           <!-- <span>Copilot</span> -->
         </button>
-        <button class="btn" data-url="https://chat.deepseek.com/"
+        <button class="btn" data-url="https://chat.deepseek.com/" data-label="DeepSeek"
           draggable="true">
           <div class="state-layer"></div>
           <img src="logos/deepseek.svg" alt="DeepSeek Icon" class="toolbar-icon" draggable="true" />
           <!-- <span>DeepSeek</span> -->
         </button>
-        <button class="btn" data-url="https://grok.com/"
+        <button class="btn" data-url="https://grok.com/" data-label="Grok"
           draggable="true">
           <div class="state-layer"></div>
           <img src="logos/grok.svg" alt="Grok Icon" class="toolbar-icon invert-color" draggable="true" />
           <!-- <span>Grok</span> -->
         </button>
-        <button class="btn" data-url="https://chat.mistral.ai/chat"
+        <button class="btn" data-url="https://chat.mistral.ai/chat" data-label="Mistral"
           draggable="true">
           <div class="state-layer"></div>
           <img src="logos/mistral.svg" alt="Mistral Icon" class="toolbar-icon invert-color" draggable="true" />
           <!-- <span>Mistral</span> -->
         </button>
-        <button class="btn" data-url="https://www.perplexity.ai/discover"
+        <button class="btn" data-url="https://www.perplexity.ai/discover" data-label="Perplexity"
           draggable="true">
           <div class="state-layer"></div>
           <img src="logos/perplexity.svg" alt="Perplexity Icon" class="toolbar-icon invert-color" draggable="true" />
           <!-- <span>Perplexity</span> -->
         </button>
-        <button class="btn" data-url="https://chat.qwen.ai/"
+        <button class="btn" data-url="https://chat.qwen.ai/" data-label="Qwen"
           draggable="true">
           <div class="state-layer"></div>
           <img src="logos/qwen.svg" alt="Qwen Icon" class="toolbar-icon invert-color" draggable="true" />
           <!-- <span>Qwen</span> -->
         </button>
-        <button class="btn" data-url="https://www.kimi.com"
+        <button class="btn" data-url="https://www.kimi.com" data-label="Kimi"
           draggable="true">
           <div class="state-layer"></div>
           <img src="logos/kimi.svg" alt="Kimi Icon" class="toolbar-icon" draggable="true" />
           <!-- <span>Kimi</span> -->
         </button>
-        <button class="btn" data-url="https://github.com/copilot"
+        <button class="btn" data-url="https://github.com/copilot" data-label="GitHub Copilot"
           draggable="true">
           <div class="state-layer"></div>
           <img src="logos/githubcopilot.svg" alt="Github Copilot Icon" class="toolbar-icon invert-color"
@@ -77,11 +200,9 @@
           <!-- <span>Github Copilot</span> -->
         </button>
         <div id="custom-buttons-container"></div>
-        <button id="split-view-btn" class="btn" title="Split View"
-          draggable="true">
+  <button id="split-view-btn" class="btn" title="Split View">
           <div class="state-layer"></div>
           <svg class="toolbar-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            draggable="true"
             xmlns="http://www.w3.org/2000/svg">
             <path
               d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4ZM4 6V18H11V6H4ZM20 18V6H13V18H20Z"
@@ -102,56 +223,16 @@
         </button>
       </nav>
       <main class="content">
-        <div class="loader">
+        <div id="iframe-container">
+          <div class="loader" role="status" aria-live="polite">
             <svg class="circular-loader" viewBox="25 25 50 50">
-                <circle class="loader-path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"/>
+              <circle class="loader-path" cx="50" cy="50" r="20" fill="none" stroke-miterlimit="10"/>
             </svg>
+          </div>
         </div>
-        <iframe
-          id="main-iframe"
-          frameborder="0"
-          allow="clipboard-read; clipboard-write"
-          sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
         <div id="support-page" class="support-page">
           <h1 class="gradient-text">GeniePlex AI Side Panel</h1>
           <img src="images/icon.png" alt="Logo" class="logo" />
-
-          <!-- Premium Support Message -->
-          <!-- <div class="support-message-container">
-            <div class="support-message-card">
-              <div class="support-heart-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M20.84 4.61C19.32 3.09 17.35 2.5 15.5 2.5C13.75 2.5 12.1 3.24 11 4.39C9.9 3.24 8.25 2.5 6.5 2.5C4.65 2.5 2.68 3.09 1.16 4.61C-0.55 6.32 -0.55 9.27 1.16 10.98L11 20.82C11.39 21.21 12.61 21.21 13 20.82L22.84 10.98C24.55 9.27 24.55 6.32 20.84 4.61Z"
-                    fill="currentColor" />
-                </svg>
-              </div>
-              <h3 class="support-title" data-i18n="supportTitle">We Need Your
-                Support</h3>
-              <p class="support-description" data-i18n="supportDescription">
-                Created with <span class="heart-pulse">❤️</span> and countless
-                hours of dedication.
-                Your support helps us continue building amazing tools for
-                everyone.
-              </p>
-              <button class="premium-cta-button" id="premium-cta-button">
-                <div class="button-content">
-                  <svg class="coffee-icon" width="20" height="20"
-                    viewBox="0 0 24 24" fill="currentColor">
-                    <path
-                      d="M12 2l3.09 6.26L22 9.27l-5 4.88L18.18 22 12 18.8 5.82 22 7 14.15l-5-4.88 6.91-1.01L12 2z" />
-                  </svg>
-                  <span data-i18n="premiumButton">Go Premium</span>
-                  <div class="button-shimmer"></div>
-                </div>
-              </button>
-              <div class="support-sparkles">
-                <div class="sparkle sparkle-1">✨</div>
-                <div class="sparkle sparkle-2">💫</div>
-                <div class="sparkle sparkle-3">⭐</div>
-              </div>
-            </div>
-          </div> -->
 
           <!-- Settings Cards - Material 3 Style -->
           <div class="settings-card" id="models-section">
@@ -173,21 +254,21 @@
             <div class="toggle-item">
               <span>Claude</span>
               <label class="switch">
-                <input type="checkbox" id="toggle-claude" checked>
+                <input type="checkbox" id="toggle-claude">
                 <span class="slider"></span>
               </label>
             </div>
             <div class="toggle-item">
               <span>Copilot</span>
               <label class="switch">
-                <input type="checkbox" id="toggle-copilot">
+                <input type="checkbox" id="toggle-copilot" checked>
                 <span class="slider"></span>
               </label>
             </div>
             <div class="toggle-item">
               <span>DeepSeek</span>
               <label class="switch">
-                <input type="checkbox" id="toggle-deepseek" checked>
+                <input type="checkbox" id="toggle-deepseek">
                 <span class="slider"></span>
               </label>
             </div>
@@ -415,9 +496,10 @@
           <div class="footer">
             <p class="footer-text" data-i18n="footerText"></p>
           </div>
-          <script type="module" src="sidepanel-modular.js"></script>
         </div>
       </main>
     </div>
+    <!-- Load JavaScript module after DOM structure is ready -->
+    <script type="module" src="sidepanel-modular.js"></script>
   </body>
 </html>

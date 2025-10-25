@@ -6,39 +6,72 @@ export class SplitViewManager {
   }
 
   initialize() {
+    console.log('SplitView: Initializing split view manager');
     const splitViewBtn = document.getElementById('split-view-btn');
-    const supportBtn = document.getElementById('support-btn');
-
-    if (!splitViewBtn || !supportBtn) {
-      console.error('Required elements not found for split view initialization');
-      return;
+    if (splitViewBtn) {
+      console.log('SplitView: Found split view button');
+      if (!splitViewBtn.dataset.listenerAttached) {
+        console.log('SplitView: Attaching click listener');
+        splitViewBtn.addEventListener('click', () => this.toggleSplitView());
+        splitViewBtn.dataset.listenerAttached = 'true';
+      } else {
+        console.log('SplitView: Click listener already attached');
+      }
+      splitViewBtn.disabled = false;
+      if (!splitViewBtn.title) {
+        splitViewBtn.title = 'Split View';
+      }
+    } else {
+      console.error('SplitView: Split view button not found!');
     }
-
-    // Disable split view button when support page is visible
-    supportBtn.addEventListener('click', () => {
-      splitViewBtn.disabled = true;
-      splitViewBtn.title = 'Exit settings first';
-    });
-
-    splitViewBtn.addEventListener('click', () => {
-      this.toggleSplitView();
-    });
+    
+    const supportBtn = document.getElementById('support-btn');
+    if (supportBtn) {
+      supportBtn.addEventListener('click', () => {
+        if (splitViewBtn) {
+          splitViewBtn.disabled = true;
+          splitViewBtn.title = 'Exit settings first';
+        }
+      });
+    }
   }
 
   toggleSplitView() {
+    console.log('SplitView: toggleSplitView called');
     const splitViewBtn = document.getElementById('split-view-btn');
-    const iframeContainer = document.querySelector('.content');
-    const iframe = document.getElementById('main-iframe');
+    if (splitViewBtn && splitViewBtn.disabled) {
+      console.log('SplitView: Split view button is disabled, aborting');
+      return;
+    }
+    
+    const iframeContainer = document.getElementById('iframe-container');
+    // More reliable way to find the active iframe
+    let iframe = null;
+    const iframes = document.querySelectorAll('#iframe-container > iframe');
+    for (const currentIframe of iframes) {
+      if (currentIframe.style.display === 'block' || (!currentIframe.style.display && currentIframe.offsetParent !== null)) {
+        iframe = currentIframe;
+        break;
+      }
+    }
+    
+    console.log('SplitView: Found iframe:', iframe ? 'Yes' : 'No');
+    console.log('SplitView: Found iframeContainer:', iframeContainer ? 'Yes' : 'No');
+    
+    if (!iframeContainer || !iframe) {
+      console.error('SplitView: Required elements not found - iframeContainer:', !!iframeContainer, 'iframe:', !!iframe);
+      alert('Please select an AI service first before using split view!');
+      return;
+    }
+    
     const supportBtn = document.getElementById('support-btn');
 
     this.splitView = !this.splitView;
+    console.log('SplitView: Toggled to', this.splitView ? 'enabled' : 'disabled');
 
-    // Disable/enable support button based on split view state
-    supportBtn.disabled = this.splitView;
-    if (this.splitView) {
-      supportBtn.title = 'Exit split view first';
-    } else {
-      supportBtn.title = '';
+    if (supportBtn) {
+      supportBtn.disabled = this.splitView;
+      supportBtn.title = this.splitView ? 'Exit split view first' : '';
     }
 
     if (this.splitView) {
@@ -223,7 +256,10 @@ export class SplitViewManager {
 
         // Set the URL and initialize resizer
         secondIframe.src = url;
-        this.cleanupResizer = this.initializeResizer(document.getElementById('main-iframe'), secondIframe);
+        // Get the currently visible iframe
+        const currentIframe = document.querySelector('#iframe-container > iframe[style*="display: block"]') || 
+                             document.getElementById('main-iframe');
+        this.cleanupResizer = this.initializeResizer(currentIframe, secondIframe);
 
         // Animate and remove drop target
         dropTarget.style.transform = 'scale(0.9)';

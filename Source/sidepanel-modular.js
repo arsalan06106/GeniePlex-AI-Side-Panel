@@ -6,7 +6,6 @@ import { SaveManager } from './modules/saveManager.js';
 import { CustomLinkManager } from './modules/customLink.js';
 import { ContentExtractorManager } from './modules/contentExtractor.js';
 import SupportMessage from './modules/supportMessage.js';
-import PremiumManager from './modules/premium.js';
 
 class SidePanelApp {
   constructor() {
@@ -18,7 +17,6 @@ class SidePanelApp {
     this.splitViewManager = new SplitViewManager();
     this.contentExtractorManager = new ContentExtractorManager();
     this.supportMessage = new SupportMessage();
-  this.premiumManager = new PremiumManager();
 
     // Make managers globally available for cross-module communication
     window.saveManager = this.saveManager;
@@ -28,7 +26,6 @@ class SidePanelApp {
     window.splitViewManager = this.splitViewManager;
     window.contentExtractorManager = this.contentExtractorManager;
     window.supportMessage = this.supportMessage;
-  window.premiumManager = this.premiumManager;
 
     // Define global variables for compatibility
     window.buttons = document.querySelectorAll('.btn[data-url]');
@@ -38,51 +35,54 @@ class SidePanelApp {
   }
 
   async initialize() {
+    // CRITICAL: Let browser paint the UI first!
+    // navbar and loader are visible from inline CSS
+    // This ensures no blank screen while JS initializes
     
-    try {
-      // Initialize loading state first
-      this.navBarManager.initializeLoadingState();
-
-      // Initialize language and then render components
-      await this.settingsManager.setLanguage();
-      
-      // Render custom links first
-      this.customLinkManager.renderCustomLinks();
-      
-      // Then initialize toggles (now custom links exist in DOM)
+    await new Promise(resolve => requestAnimationFrame(resolve));
+    
+    // Initialize navbar handlers immediately (clicks, drag-drop, etc.)
+    this.navBarManager.init();
+    
+    // Initialize split view immediately to avoid race conditions
+    this.splitViewManager.initialize();
+    
+    // Load the initial URL (loader stays visible while iframe loads)
+    this.navBarManager.loadInitialUrl();
+    
+    // Defer non-critical initialization to not block rendering
+    requestAnimationFrame(() => {
+      // Apply toggle visibility (may manipulate DOM)
       this.settingsManager.initializeToggles();
       
-      // Load initial URL
-      this.navBarManager.loadInitialUrl();
-      
-      // Initialize split view
-      this.splitViewManager.initialize();
-      
-      // Initialize support message after everything else is ready
-      this.supportMessage.init();
-  // Initialize premium
-  this.premiumManager.init();
-      
-      
-    } catch (error) {
-      console.error('Error in initialization:', error);
-      
-      // Fallback initialization
-      this.customLinkManager.renderCustomLinks();
-      this.settingsManager.initializeToggles();
-      this.navBarManager.loadInitialUrl();
-      this.splitViewManager.initialize();
-      this.supportMessage.init();
-  this.premiumManager.init();
-      
-    }
+      // Everything else can wait
+      setTimeout(() => {
+        this.settingsManager.setLanguage();
+        this.customLinkManager.renderCustomLinks();
+        this.supportMessage.init();
+      }, 50);
+    });
   }
 }
 
 // Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
+  console.log('DOM Content Loaded - Starting initialization');
+  
+  // UI is immediately visible:
+  // - Navbar (toolbar) is visible from HTML/CSS
+  // - Loader is visible by default, showing while AI content loads
+  const loader = document.querySelector('.loader');
+  if (loader) {
+    console.log('Loader visible - navbar already showing, AI content will load');
+  } else {
+    console.error('Loader element not found!');
+  }
+
   const app = new SidePanelApp();
+  console.log('App instance created, starting initialization');
   await app.initialize();
+  console.log('App initialization complete');
 
   // Route background command messages at app level as a backup
   try {
@@ -95,9 +95,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // Legacy compatibility - expose functions that might be called externally
-window.toggleLoadingState = (show) => {
+window.toggleLoadingState = (show, label) => {
   if (window.navBarManager) {
-    window.navBarManager.toggleLoadingState(show);
+    window.navBarManager.toggleLoadingState(show, label);
   }
 };
 

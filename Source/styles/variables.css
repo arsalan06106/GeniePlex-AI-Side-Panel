@@ -86,4 +86,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
