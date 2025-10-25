@@ -249,17 +249,23 @@ export class NavBarManager {
     // Hide all iframes
     iframes.forEach(iframe => {
       iframe.style.display = 'none';
+      // Remove main-iframe ID from all iframes
+      if (iframe.id === 'main-iframe') {
+        iframe.id = '';
+      }
     });
 
     if (targetIframe) {
       // Iframe already cached - show instantly, NO loader
       targetIframe.style.display = 'block';
+      targetIframe.id = 'main-iframe'; // Set as main iframe for split view
       this.toggleLoadingState(false);
     } else {
       // New iframe - show loader
       this.toggleLoadingState(true, label);
       
       targetIframe = document.createElement('iframe');
+      targetIframe.id = 'main-iframe'; // Set as main iframe for split view
       targetIframe.src = url;
       targetIframe.setAttribute('data-url', url);
       targetIframe.setAttribute('allow', 'clipboard-write');

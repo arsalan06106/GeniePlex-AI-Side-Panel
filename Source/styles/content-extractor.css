@@ -1,9 +1,6 @@
 /* Content Extractor Styles */
 
-/* Content extractor button inherits from base button styles */
-#content-extractor-btn {
-  /* Button already inherits all styles from .btn class */
-}
+
 
 #content-extractor-btn.loading svg {
   animation: spin 1s linear infinite;
@@ -199,22 +196,22 @@
   color: var(--primary-color);
 }
 
-/* Extraction Options Modal */
+/* Extraction Options Modal - Material 3 Redesign */
 .extraction-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.6); /* M3 Scrim */
+  backdrop-filter: blur(8px);
   z-index: 10000;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
+  transition: opacity 250ms var(--ease-out-quart), visibility 250ms;
 }
 
 .extraction-modal.show {
@@ -223,94 +220,105 @@
 }
 
 .extraction-modal-content {
-  background: var(--bg-color);
-  border-radius: 16px;
-  padding: 0;
-  max-width: 500px;
-  width: 90%;
-  max-height: 80vh;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transform: scale(0.9) translateY(20px);
-  transition: all 0.3s ease;
+  background: var(--surface-container);
+  border-radius: 28px; /* M3 Dialog shape */
+  padding: 24px;
+  max-width: 560px;
+  width: calc(100% - 48px);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transform: scale(0.95);
+  transition: transform 250ms var(--ease-out-quart);
 }
 
 .extraction-modal.show .extraction-modal-content {
-  transform: scale(1) translateY(0);
+  transform: scale(1);
 }
 
 .extraction-modal-header {
-  padding: 24px 24px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: 16px;
 }
 
 .extraction-modal-header h3 {
   margin: 0;
-  color: var(--text-color);
-  font-size: 1.2rem;
-  font-weight: 600;
+  color: var(--on-surface);
+  font-size: 24px; /* M3 Headline Small */
+  font-weight: 400;
+  line-height: 32px;
 }
 
 .extraction-modal-close {
   background: none;
   border: none;
-  color: var(--text-color);
+  color: var(--on-surface-variant);
   font-size: 24px;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  opacity: 0.7;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 150ms linear;
 }
 
 .extraction-modal-close:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.1);
+  background-color: var(--surface-container-highest);
 }
 
 .extraction-modal-body {
-  padding: 16px 24px 24px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-right: -8px;
+  padding-right: 8px;
 }
 
+
+
+/* M3 List for Options */
 .extraction-options {
-  display: grid;
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0;
+  margin: 0;
 }
 
 .extraction-option {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px;
+  padding: 12px 16px;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 150ms linear;
   text-align: left;
   width: 100%;
 }
 
 .extraction-option:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--primary-color);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 255, 170, 0.1);
+  background-color: var(--surface-container-high);
 }
 
 .extraction-option-icon {
   width: 40px;
   height: 40px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  background-color: var(--primary-container);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--primary-color);
+  color: var(--on-primary-container);
   flex-shrink: 0;
 }
 
@@ -319,169 +327,32 @@
 }
 
 .extraction-option-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-color);
-  margin-bottom: 4px;
+  font-size: 16px; /* M3 Body Large */
+  font-weight: 500;
+  color: var(--on-surface);
+  margin-bottom: 2px;
 }
 
 .extraction-option-desc {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.4;
+  font-size: 14px; /* M3 Body Medium */
+  color: var(--on-surface-variant);
+  line-height: 20px;
 }
 
-/* Mobile responsive */
-@media (max-width: 768px) {
-  .extraction-modal-content {
-    width: 95%;
-    margin: 20px;
-  }
-  
-  .extraction-modal-header {
-    padding: 20px 20px 12px;
-  }
-  
-  .extraction-modal-body {
-    padding: 12px 20px 20px;
-  }
-  
-  .extraction-option {
-    padding: 14px;
-    gap: 12px;
-  }
-  
-  .extraction-option-icon {
-    width: 36px;
-    height: 36px;
-  }
-  
-  .extraction-option-title {
-    font-size: 0.95rem;
-  }
-  
-  .extraction-option-desc {
-    font-size: 0.8rem;
-  }
+/* Scrollbar styling */
+.extraction-modal-body::-webkit-scrollbar {
+  width: 8px;
 }
 
-/* Search container */
-.extraction-search-container {
-  position: relative;
-  margin-bottom: 16px;
-}
-
-.extraction-search-input {
-  width: 100%;
-  padding: 12px 16px 12px 40px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: var(--text-color);
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-}
-
-.extraction-search-input:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 0 3px rgba(0, 255, 170, 0.1);
-}
-
-.extraction-search-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.extraction-search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: rgba(255, 255, 255, 0.4);
-  pointer-events: none;
-}
-
-/* Settings section */
-.extraction-settings {
-  margin-bottom: 20px;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.extraction-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.extraction-checkbox input[type="checkbox"] {
-  display: none;
-}
-
-.extraction-checkbox-custom {
-  width: 20px;
-  height: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
-  position: relative;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.extraction-checkbox input[type="checkbox"]:checked + .extraction-checkbox-custom {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
-}
-
-.extraction-checkbox input[type="checkbox"]:checked + .extraction-checkbox-custom::after {
-  content: '';
-  position: absolute;
-  left: 6px;
-  top: 2px;
-  width: 6px;
-  height: 10px;
-  border: solid var(--bg-color);
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-.extraction-checkbox-label {
-  color: var(--text-color);
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.extraction-checkbox:hover .extraction-checkbox-custom {
-  border-color: var(--primary-color);
-  background: rgba(0, 255, 170, 0.1);
-}
-
-/* Scrollable options list */
-.extraction-options {
-  max-height: 400px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-}
-
-.extraction-options::-webkit-scrollbar {
-  width: 6px;
-}
-
-.extraction-options::-webkit-scrollbar-track {
+.extraction-modal-body::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.extraction-options::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
+.extraction-modal-body::-webkit-scrollbar-thumb {
+  background: var(--outline);
+  border-radius: 4px;
 }
 
-.extraction-options::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+.extraction-modal-body::-webkit-scrollbar-thumb:hover {
+  background: var(--on-surface-variant);
 }

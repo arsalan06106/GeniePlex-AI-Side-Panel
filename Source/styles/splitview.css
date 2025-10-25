@@ -5,8 +5,16 @@
   gap: 6px;
 }
 
+/* When split view is active, iframe-container should only take 50% */
+.content.split-view #iframe-container {
+  position: relative !important; /* Override absolute positioning */
+  width: 50% !important;
+  height: 100% !important;
+  flex-shrink: 0;
+}
+
 .content.split-view #main-iframe {
-  width: 50%;
+  width: 100% !important;
   height: 100% !important;
   transition: 
     width calc(var(--spring-duration) * var(--motion-duration-multiplier)) var(--ease-spring),

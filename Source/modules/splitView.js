@@ -6,95 +6,100 @@ export class SplitViewManager {
   }
 
   initialize() {
-    console.log('SplitView: Initializing split view manager');
+    console.log('SplitView: initialize() called');
     const splitViewBtn = document.getElementById('split-view-btn');
-    if (splitViewBtn) {
-      console.log('SplitView: Found split view button');
-      if (!splitViewBtn.dataset.listenerAttached) {
-        console.log('SplitView: Attaching click listener');
-        splitViewBtn.addEventListener('click', () => this.toggleSplitView());
-        splitViewBtn.dataset.listenerAttached = 'true';
-      } else {
-        console.log('SplitView: Click listener already attached');
-      }
-      splitViewBtn.disabled = false;
-      if (!splitViewBtn.title) {
-        splitViewBtn.title = 'Split View';
-      }
-    } else {
-      console.error('SplitView: Split view button not found!');
-    }
-    
     const supportBtn = document.getElementById('support-btn');
-    if (supportBtn) {
-      supportBtn.addEventListener('click', () => {
-        if (splitViewBtn) {
-          splitViewBtn.disabled = true;
-          splitViewBtn.title = 'Exit settings first';
-        }
-      });
+
+    console.log('SplitView: splitViewBtn =', splitViewBtn);
+    console.log('SplitView: supportBtn =', supportBtn);
+
+    if (!splitViewBtn || !supportBtn) {
+      console.error('Required elements not found for split view initialization');
+      return;
     }
+
+    // Disable split view button when support page is visible
+    supportBtn.addEventListener('click', () => {
+      console.log('SplitView: Support button clicked');
+      splitViewBtn.disabled = true;
+      splitViewBtn.title = 'Exit settings first';
+    });
+
+    splitViewBtn.addEventListener('click', () => {
+      console.log('SplitView: Split view button clicked!');
+      this.toggleSplitView();
+    });
+    
+    console.log('SplitView: Event listeners attached successfully');
   }
 
   toggleSplitView() {
-    console.log('SplitView: toggleSplitView called');
     const splitViewBtn = document.getElementById('split-view-btn');
-    if (splitViewBtn && splitViewBtn.disabled) {
-      console.log('SplitView: Split view button is disabled, aborting');
-      return;
-    }
-    
-    const iframeContainer = document.getElementById('iframe-container');
-    // More reliable way to find the active iframe
-    let iframe = null;
-    const iframes = document.querySelectorAll('#iframe-container > iframe');
-    for (const currentIframe of iframes) {
-      if (currentIframe.style.display === 'block' || (!currentIframe.style.display && currentIframe.offsetParent !== null)) {
-        iframe = currentIframe;
-        break;
-      }
-    }
-    
-    console.log('SplitView: Found iframe:', iframe ? 'Yes' : 'No');
-    console.log('SplitView: Found iframeContainer:', iframeContainer ? 'Yes' : 'No');
-    
-    if (!iframeContainer || !iframe) {
-      console.error('SplitView: Required elements not found - iframeContainer:', !!iframeContainer, 'iframe:', !!iframe);
-      alert('Please select an AI service first before using split view!');
-      return;
-    }
-    
+    const iframeContainer = document.querySelector('.content');
+    const iframe = document.getElementById('main-iframe');
     const supportBtn = document.getElementById('support-btn');
 
-    this.splitView = !this.splitView;
-    console.log('SplitView: Toggled to', this.splitView ? 'enabled' : 'disabled');
+    console.log('Split View Toggle - Container:', iframeContainer);
+    console.log('Split View Toggle - Main iframe:', iframe);
+    console.log('Split View Toggle - Current state BEFORE toggle:', this.splitView);
 
+    if (!iframeContainer || !iframe) {
+      console.error('Split view error: missing container or iframe');
+      alert('Please select an AI service first!');
+      return;
+    }
+
+    // Toggle the state
+    this.splitView = !this.splitView;
+    console.log('Split View Toggle - Current state AFTER toggle:', this.splitView);
+
+    // Disable/enable support button based on split view state
     if (supportBtn) {
       supportBtn.disabled = this.splitView;
-      supportBtn.title = this.splitView ? 'Exit split view first' : '';
+      if (this.splitView) {
+        supportBtn.title = 'Exit split view first';
+      } else {
+        supportBtn.title = '';
+      }
     }
 
     if (this.splitView) {
+      console.log('Calling enableSplitView...');
       this.enableSplitView(iframeContainer, iframe);
     } else {
+      console.log('Calling disableSplitView...');
       this.disableSplitView(iframeContainer, iframe);
     }
   }
 
   enableSplitView(iframeContainer, iframe) {
+    console.log('Enabling split view...');
+    console.log('iframeContainer:', iframeContainer);
+    console.log('iframe:', iframe);
+    
+    // Clean up any existing split view elements first
+    this.cleanupSplitViewElements();
+    
     // Add split view class for styling
     iframeContainer.classList.add('split-view');
+    console.log('Added split-view class to container');
+    console.log('Container classes:', iframeContainer.className);
 
     // Create second iframe with proper attributes and more secure sandbox
     const secondIframe = document.createElement('iframe');
     secondIframe.id = 'second-iframe';
     secondIframe.frameBorder = '0';
 
-
     // Create drop target first
     const dropTarget = document.createElement('div');
     dropTarget.id = 'drop-target';
+    dropTarget.style.zIndex = '10'; // Make sure it's visible
     iframeContainer.appendChild(dropTarget);
+    console.log('Drop target created and added');
+    console.log('Drop target element:', dropTarget);
+    console.log('Drop target parent:', dropTarget.parentElement);
+    console.log('Drop target computed style width:', window.getComputedStyle(dropTarget).width);
+    console.log('Drop target computed style display:', window.getComputedStyle(dropTarget).display);
 
     // Initialize drop target before adding iframe
     this.initializeDropTarget(dropTarget, secondIframe);
@@ -102,6 +107,7 @@ export class SplitViewManager {
     // Add second iframe but keep it hidden initially
     secondIframe.style.display = 'none';
     iframeContainer.appendChild(secondIframe);
+    console.log('Second iframe created and added (hidden)');
 
     // Create resizer only once and keep it hidden initially
     if (!document.querySelector('.resizer')) {
@@ -109,6 +115,7 @@ export class SplitViewManager {
       resizer.className = 'resizer';
       resizer.style.display = 'none';
       iframeContainer.insertBefore(resizer, secondIframe);
+      console.log('Resizer created and added');
     }
 
     // Add close button for second iframe
@@ -120,30 +127,51 @@ export class SplitViewManager {
         closeButton.style.display = 'block';
       }
     });
+    
+    console.log('Split view enabled - checking final structure...');
+    console.log('Content children:', Array.from(iframeContainer.children).map(c => c.id || c.className));
+  }
+
+  cleanupSplitViewElements() {
+    // Remove any existing split view elements
+    const elements = ['second-iframe', 'drop-target', 'close-second-iframe'];
+    elements.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        console.log(`Removing existing element: ${id}`);
+        element.remove();
+      }
+    });
+    
+    const resizer = document.querySelector('.resizer');
+    if (resizer) {
+      console.log('Removing existing resizer');
+      resizer.remove();
+    }
   }
 
   disableSplitView(iframeContainer, iframe) {
+    console.log('Disabling split view...');
+    
     // Remove split view class
     iframeContainer.classList.remove('split-view');
 
     // Reset main iframe width
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
+    if (iframe) {
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+    }
 
-    // Remove all split view related elements
-    const elements = ['second-iframe', 'drop-target', 'resizer', 'close-second-iframe'];
-    elements.forEach(id => {
-      const element = id === 'resizer' ?
-        document.querySelector('.resizer') :
-        document.getElementById(id);
-      if (element) element.remove();
-    });
+    // Clean up all split view elements
+    this.cleanupSplitViewElements();
 
     // Clean up resizer if it exists
     if (this.cleanupResizer) {
       this.cleanupResizer();
       this.cleanupResizer = null;
     }
+    
+    console.log('Split view disabled');
   }
 
   addCloseButton(iframeContainer, iframe) {
@@ -216,7 +244,7 @@ export class SplitViewManager {
         <line x1="6" y1="12" x2="18" y2="12" stroke="#00ff9d" stroke-width="2"/>
       </svg>
       <div class="drop-target-text">Add Another AI</div>
-      <div class="drop-target-subtext">Drag an AI icon here</div>
+      <div class="drop-target-subtext">Drag an AI button here from the navbar above</div>
     `;
 
     let dragEnterCount = 0;
@@ -246,40 +274,65 @@ export class SplitViewManager {
       dragEnterCount = 0;
       dropTarget.classList.remove('drag-over');
       const draggedElement = document.querySelector('.dragging');
+      
+      console.log('Drop event triggered!');
+      console.log('Dragged element:', draggedElement);
+      
       if (draggedElement && draggedElement.getAttribute('data-url')) {
         const url = draggedElement.getAttribute('data-url');
+        console.log('Dropped URL:', url);
 
         // Show the iframe and resizer
         secondIframe.style.display = 'block';
         const resizer = document.querySelector('.resizer');
-        if (resizer) resizer.style.display = 'block';
+        if (resizer) {
+          resizer.style.display = 'block';
+          console.log('Resizer shown');
+        }
 
         // Set the URL and initialize resizer
         secondIframe.src = url;
+        console.log('Second iframe src set to:', url);
+        
         // Get the currently visible iframe
         const currentIframe = document.querySelector('#iframe-container > iframe[style*="display: block"]') || 
                              document.getElementById('main-iframe');
+        console.log('Current iframe for resizer:', currentIframe);
+        
         this.cleanupResizer = this.initializeResizer(currentIframe, secondIframe);
 
         // Animate and remove drop target
+        console.log('Animating drop target out...');
         dropTarget.style.transform = 'scale(0.9)';
         dropTarget.style.opacity = '0';
+        dropTarget.style.transition = 'all 0.3s ease';
+        
         setTimeout(() => {
+          console.log('Removing drop target');
           dropTarget.remove();
+          console.log('Drop target removed!');
         }, 300);
+      } else {
+        console.log('No valid dragged element or URL found');
       }
     });
   }
 
   initializeResizer(iframe1, iframe2) {
-    const container = iframe1.parentNode;
+    // Get the .content container which holds both iframes
+    const container = document.querySelector('.content');
     let resizer = container.querySelector('.resizer');
 
     if (!resizer) {
-      resizer = document.createElement('div');
-      resizer.className = 'resizer';
-      container.insertBefore(resizer, iframe2);
+      console.error('Resizer not found! It should have been created in enableSplitView');
+      return null;
     }
+
+    console.log('Initializing resizer between iframes');
+    console.log('Container:', container);
+    console.log('Resizer:', resizer);
+    console.log('iframe1:', iframe1);
+    console.log('iframe2:', iframe2);
 
     let isResizing = false;
     let startX, startWidth;
@@ -291,7 +344,10 @@ export class SplitViewManager {
     const startResize = (e) => {
       isResizing = true;
       startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-      startWidth = iframe1.getBoundingClientRect().width;
+      
+      // Get the iframe container which holds iframe1
+      const iframeContainer = document.getElementById('iframe-container');
+      startWidth = iframeContainer ? iframeContainer.getBoundingClientRect().width : iframe1.getBoundingClientRect().width;
 
       // Add resizing class to container only
       container.classList.add('resizing');
@@ -326,8 +382,11 @@ export class SplitViewManager {
         // Clamp percentage between min and max
         percentage = Math.max(minPercentage, Math.min(maxPercentage, percentage));
 
-        // Apply width changes directly
-        iframe1.style.width = `${percentage}%`;
+        // Apply width changes to iframe-container and second iframe
+        const iframeContainer = document.getElementById('iframe-container');
+        if (iframeContainer) {
+          iframeContainer.style.width = `${percentage}%`;
+        }
         iframe2.style.width = `${100 - percentage}%`;
       });
     };
