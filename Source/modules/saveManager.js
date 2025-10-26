@@ -94,6 +94,14 @@ export class SaveManager {
           } else {
           }
         });
+
+        // Ensure utility buttons are at the end
+        const splitViewBtn = document.getElementById('split-view-btn');
+        const supportBtn = document.getElementById('support-btn');
+        const contentExtractorBtn = document.getElementById('content-extractor-btn');
+        if (splitViewBtn) toolbar.appendChild(splitViewBtn);
+        if (supportBtn) toolbar.appendChild(supportBtn);
+        if (contentExtractorBtn) toolbar.appendChild(contentExtractorBtn);
         
       } catch (error) {
         console.error('Error restoring button order:', error);
