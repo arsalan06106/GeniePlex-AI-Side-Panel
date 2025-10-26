@@ -11,7 +11,7 @@
     "storage"
   ],
   "description": "Access all your favorite AI tools instantly in your Chrome side panel. Boost productivity with a split-screen workflow.",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "side_panel": {
     "default_path": "sidepanel.html"
   },
