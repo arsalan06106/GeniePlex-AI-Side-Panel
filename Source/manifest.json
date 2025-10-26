@@ -10,7 +10,7 @@
     "commands",
     "storage"
   ],
-  "description": "__MSG_appDescription__",
+  "description": "Access ChatGPT, Gemini & all AI tools instantly in your Chrome side panel. Boost productivity with a split-screen workflow.",
   "version": "0.2.5",
   "side_panel": {
     "default_path": "sidepanel.html"
@@ -60,6 +60,5 @@
         "default": "Alt+Shift+P"
       }
     }
-  },
-  "default_locale": "en"
+  }
 }

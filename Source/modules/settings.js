@@ -6,7 +6,6 @@ export class SettingsManager {
 
   init() {
     this.initializeShortcutSettings();
-    this.initializeLanguageSettings();
     this.initializeToggleHandlers();
   this.initializeThemeSettings();
   this.initializeRememberLastModelSetting();
@@ -58,19 +57,7 @@ export class SettingsManager {
     });
   }
 
-  initializeLanguageSettings() {
-    // Update language when user changes the selection
-    const languageSelect = document.getElementById('language-select');
-    if (languageSelect) {
-      languageSelect.addEventListener('change', () => {
-        const selectedLanguage = languageSelect.value;
-        localStorage.setItem('selectedLanguage', selectedLanguage);
-        this.setLanguage();
-      });
-    }
-  }
-
-  initializeThemeSettings() {
+initializeThemeSettings() {
     const themeSelect = document.getElementById('theme-select');
     // Support both new and legacy ids for the theme section container
     const themeSection = document.getElementById('theme-settings-section') || document.getElementById('theme-section');
@@ -204,37 +191,6 @@ export class SettingsManager {
 
   setLanguage() {
     return new Promise((resolve) => {
-      const languageSelect = document.getElementById('language-select');
-      const storedLanguage = localStorage.getItem('selectedLanguage');
-      const userLanguage = storedLanguage || languageSelect?.value || navigator.language || navigator.userLanguage;
-
-      // Set the dropdown to the stored language
-      if (storedLanguage && languageSelect) {
-        languageSelect.value = storedLanguage;
-      }
-
-      // Load the appropriate language file
-      // fetch(`_locales/${userLanguage}/messages.json`)
-      //   .then(response => response.json())
-      //   .then(messages => {
-      //     // Store globally for extractor
-      //     window._i18nMessages = messages;
-      //     document.querySelectorAll('[data-i18n]').forEach(element => {
-      //       const key = element.getAttribute('data-i18n');
-      //       if (messages[key]) {
-      //         element.innerHTML = messages[key].message;
-      //       }
-      //     });
-      //     // Update content extractor language if it exists
-      //     if (window.contentExtractorManager) {
-      //       window.contentExtractorManager.updateLanguage(messages);
-      //     }
-      //     resolve(); // Resolve the promise after translations are done
-      //   })
-      //   .catch(error => {
-      //     console.error('Error loading language file:', error);
-      //     resolve(); // Resolve even on error to continue initialization
-      //   });
       resolve();
     });
   }
