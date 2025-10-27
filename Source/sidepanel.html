@@ -231,265 +231,128 @@
           </div>
         </div>
         <div id="support-page" class="support-page">
-          <h1 class="gradient-text">GeniePlex AI Side Panel</h1>
-          <img src="images/icon.png" alt="Logo" class="logo" />
-
-          <!-- Settings Cards - Material 3 Style -->
-          <div class="settings-card" id="models-section">
-            <h3 class="card-title" data-i18n="models">Models</h3>
-            <div class="toggle-item">
-              <span>ChatGPT</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-chatgpt" checked>
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-item">
-              <span>Gemini</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-gemini" checked>
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-item">
-              <span>Claude</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-claude">
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-item">
-              <span>Copilot</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-copilot" checked>
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-item">
-              <span>DeepSeek</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-deepseek">
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-item">
-              <span>Grok</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-grok" checked>
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-item">
-              <span>Mistral</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-mistral">
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-item">
-              <span>Perplexity</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-perplexity">
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-item">
-              <span>Qwen</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-qwen">
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-item">
-              <span>Kimi</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-kimi">
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-item">
-              <span>Github Copilot</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-githubcopilot">
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-
-          <div class="settings-card" id="customize-navigation-section">
-            <h3 class="card-title" data-i18n="customizeNavigation">Customize Navigation</h3>
-            <div class="toggle-item">
-              <span data-i18n="splitView">Split View</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-split-view" checked>
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-item">
-              <span>Content Extractor</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-content-extractor" checked>
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-item">
-              <span data-i18n="scrollbarAlwaysVisible">Scrollbar Always Visible</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-scrollbar-always-visible" checked>
-                <span class="slider"></span>
-              </label>
-            </div>
-            <div class="toggle-item">
-              <span data-i18n="rememberLastModel">Remember last selected model</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-remember-last-model">
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-
-          <div class="settings-card" id="custom-links-container">
-            <h3 class="card-title" data-i18n="customLinks">Custom Links</h3>
-            <div class="add-link-form">
-              <input type="text" id="custom-link-input" placeholder="Enter URL" />
-              <button id="add-link-btn" data-i18n="add">Add</button>
-            </div>
-            <div id="custom-links-list"></div>
-          </div>
-
-          <div class="settings-card" id="shortcut-section">
-            <div class="shortcut-header">
-              <h3 class="card-title" data-i18n="shortcutLabel">Keyboard Shortcuts</h3>
-              <button id="manage-shortcuts-all" class="shortcut-button" title="Manage shortcuts" aria-label="Manage shortcuts">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c-.59-.24-1.13-.56-1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.03-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
-                </svg>
-              </button>
-            </div>
-            <div class="shortcut-item">
-              <span data-i18n="toggleExtension">Toggle Extension</span>
-              <div class="shortcut-input-wrapper">
-                <input type="text" id="shortcut-input" class="shortcut-input" value="Alt+Q" readonly>
-              </div>
-            </div>
-            <div class="shortcut-item">
-              <span data-i18n="switchNext">Next model</span>
-              <div class="shortcut-input-wrapper">
-                <input type="text" id="shortcut-next-input" class="shortcut-input" value="Alt+Shift+N" readonly>
-              </div>
-            </div>
-            <div class="shortcut-item">
-              <span data-i18n="switchPrev">Previous model</span>
-              <div class="shortcut-input-wrapper">
-                <input type="text" id="shortcut-prev-input" class="shortcut-input" value="Alt+Shift+P" readonly>
-              </div>
-            </div>
-            <p class="shortcut-info" data-i18n="shortcutInfo"></p>
-            <p class="shortcut-info" data-i18n="shortcutsNote">Shortcuts are managed by your browser. If a combo conflicts with system or browser keys, pick another.</p>
-          </div>
-
-          <!-- <div class="settings-card" id="language-section">
-            <h3 class="card-title" data-i18n="language">Language</h3>
-            <div class="select-wrapper">
-              <select id="language-select">
-                <option value="en">English</option>
-              </select>
-              <svg class="select-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M7 10l5 5 5-5z" fill="currentColor" />
-              </svg>
-            </div>
+          <!-- <div class="settings-header">
+            <h1 class="settings-title" data-i18n="settings">Settings</h1>
           </div> -->
 
-          <!-- <div class="settings-card" id="theme-settings-section">
-            <h3 class="card-title" data-i18n="themeLabel">Theme</h3>
-            <div class="select-wrapper">
-              <select id="theme-select">
-                <option value="default" data-i18n="themeDefault">Default</option>
-                <option value="synthwave" data-i18n="themeSynthwave">Synthwave</option>
-                <option value="glass" data-i18n="themeGlassmorphism">Glassmorphism</option>
-                <option value="brutal" data-i18n="themeBrutalism">Neo‑Brutalism</option>
-                <option value="neo-noir" data-i18n="themeNeoNoir">Neo Noir Dark</option>
-                <option value="neo-anime" data-i18n="themeNeoAnime">Neo‑Anime</option>
-              </select>
-              <svg class="select-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M7 10l5 5 5-5z" fill="currentColor" />
-              </svg>
+          <div class="settings-content">
+            <!-- Service Visibility -->
+            <div class="settings-section" id="models-section">
+              <h3 class="section-title" data-i18n="serviceVisibility">Service Visibility</h3>
+              <div class="toggle-list">
+                <div class="toggle-item">
+                  <img src="logos/chatgpt.svg" class="toggle-icon invert-color" alt="ChatGPT"><span>ChatGPT</span><label class="switch"><input type="checkbox" id="toggle-chatgpt" checked><span class="slider"></span></label>
+                </div>
+                <div class="toggle-item">
+                  <img src="logos/gemini.svg" class="toggle-icon" alt="Gemini"><span>Gemini</span><label class="switch"><input type="checkbox" id="toggle-gemini" checked><span class="slider"></span></label>
+                </div>
+                <div class="toggle-item">
+                  <img src="logos/claude.svg" class="toggle-icon" alt="Claude"><span>Claude</span><label class="switch"><input type="checkbox" id="toggle-claude"><span class="slider"></span></label>
+                </div>
+                <div class="toggle-item">
+                  <img src="logos/copilot.svg" class="toggle-icon" alt="Copilot"><span>Copilot</span><label class="switch"><input type="checkbox" id="toggle-copilot" checked><span class="slider"></span></label>
+                </div>
+                <div class="toggle-item">
+                  <img src="logos/deepseek.svg" class="toggle-icon" alt="DeepSeek"><span>DeepSeek</span><label class="switch"><input type="checkbox" id="toggle-deepseek"><span class="slider"></span></label>
+                </div>
+                <div class="toggle-item">
+                  <img src="logos/grok.svg" class="toggle-icon invert-color" alt="Grok"><span>Grok</span><label class="switch"><input type="checkbox" id="toggle-grok" checked><span class="slider"></span></label>
+                </div>
+                <div class="toggle-item">
+                  <img src="logos/mistral.svg" class="toggle-icon invert-color" alt="Mistral"><span>Mistral</span><label class="switch"><input type="checkbox" id="toggle-mistral"><span class="slider"></span></label>
+                </div>
+                <div class="toggle-item">
+                  <img src="logos/perplexity.svg" class="toggle-icon invert-color" alt="Perplexity"><span>Perplexity</span><label class="switch"><input type="checkbox" id="toggle-perplexity"><span class="slider"></span></label>
+                </div>
+                <div class="toggle-item">
+                  <img src="logos/qwen.svg" class="toggle-icon invert-color" alt="Qwen"><span>Qwen</span><label class="switch"><input type="checkbox" id="toggle-qwen"><span class="slider"></span></label>
+                </div>
+                <div class="toggle-item">
+                  <img src="logos/kimi.svg" class="toggle-icon" alt="Kimi"><span>Kimi</span><label class="switch"><input type="checkbox" id="toggle-kimi"><span class="slider"></span></label>
+                </div>
+                <div class="toggle-item">
+                  <img src="logos/githubcopilot.svg" class="toggle-icon invert-color" alt="GitHub Copilot"><span>GitHub Copilot</span><label class="switch"><input type="checkbox" id="toggle-githubcopilot"><span class="slider"></span></label>
+                </div>
+              </div>
             </div>
-            <p class="shortcut-info" data-i18n="themeSavedInfo">Your choice is saved for next time.</p>
-          </div>  -->
 
-          <div class="settings-card" id="synthwave-dim-container" style="display:none;">
-            <h3 class="card-title" data-i18n="synthOptions">Synthwave Options</h3>
-            <div class="toggle-item">
-              <span data-i18n="synthDimGlowLabel">Dim neon glow (low stimulus)</span>
-              <label class="switch">
-                <input type="checkbox" id="toggle-synthwave-dim">
-                <span class="slider"></span>
-              </label>
+            <!-- General Settings -->
+            <div class="settings-section">
+              <h3 class="section-title" data-i18n="general">General</h3>
+              <div class="toggle-list">
+                <div class="toggle-item">
+                  <span data-i18n="rememberLastModel">Remember last selected model</span>
+                  <label class="switch">
+                    <input type="checkbox" id="toggle-remember-last-model">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="toggle-item">
+                  <span data-i18n="splitView">Split View</span>
+                  <label class="switch">
+                    <input type="checkbox" id="toggle-split-view" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="toggle-item">
+                  <span>Content Extractor</span>
+                  <label class="switch">
+                    <input type="checkbox" id="toggle-content-extractor" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="toggle-item">
+                  <span data-i18n="scrollbarAlwaysVisible">Scrollbar Always Visible</span>
+                  <label class="switch">
+                    <input type="checkbox" id="toggle-scrollbar-always-visible" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Custom Links -->
+            <div class="settings-section" id="custom-links-container">
+              <div class="section-header">
+                <h3 class="section-title" data-i18n="customLinks">Custom Links</h3>
+              </div>
+              <p class="section-subtitle">Add your own sites to the toolbar. Give it a friendly name, we’ll fetch the favicon.</p>
+              <div class="add-link-form" role="group" aria-label="Add custom link">
+                <input type="text" id="custom-link-url-input" placeholder="URL (https://example.com)" aria-label="URL" />
+                <input type="text" id="custom-link-name-input" placeholder="Name (optional)" aria-label="Name" />
+                <button id="add-link-btn" aria-label="Add custom link" data-i18n="add">Add</button>
+              </div>
+              <div id="custom-links-list" class="toggle-list" aria-live="polite"></div>
+            </div>
+
+            <!-- Keyboard Shortcuts -->
+            <div class="settings-section" id="shortcut-section">
+              <div class="section-header">
+                <h3 class="section-title" data-i18n="shortcutLabel">Keyboard Shortcuts</h3>
+                <button id="manage-shortcuts-all" class="manage-btn" title="Manage shortcuts in browser settings" aria-label="Manage shortcuts in browser settings">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12-.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.03-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" /></svg>
+                </button>
+              </div>
+              <div class="shortcut-list">
+                <div class="shortcut-item">
+                  <span data-i18n="toggleExtension">Toggle Extension</span>
+                  <input type="text" id="shortcut-input" class="shortcut-input" readonly>
+                </div>
+                <div class="shortcut-item">
+                  <span data-i18n="switchNext">Next model</span>
+                  <input type="text" id="shortcut-next-input" class="shortcut-input" readonly>
+                </div>
+                <div class="shortcut-item">
+                  <span data-i18n="switchPrev">Previous model</span>
+                  <input type="text" id="shortcut-prev-input" class="shortcut-input" readonly>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- <div class="buttons-container">
-            <a class="social-button" data-social="github"
-              href="https://github.com/creosb" target="_blank"
-              rel="noopener noreferrer">
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                height="24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                class="icon">
-                <path
-                  clip-rule="evenodd"
-                  d="M12.006 2a9.847 9.847 0 0 0-6.484 2.44 10.32 10.32 0 0 0-3.393 6.17 10.48 10.48 0 0 0 1.317 6.955 10.045 10.045 0 0 0 5.4 4.418c.504.095.683-.223.683-.494 0-.245-.01-1.052-.014-1.908-2.78.62-3.366-1.21-3.366-1.21a2.711 2.711 0 0 0-1.11-1.5c-.907-.637.07-.621.07-.621.317.044.62.163.885.346.266.183.487.426.647.71.135.253.318.476.538.655a2.079 2.079 0 0 0 2.37.196c.045-.52.27-1.006.635-1.37-2.219-.259-4.554-1.138-4.554-5.07a4.022 4.022 0 0 1 1.031-2.75 3.77 3.77 0 0 1 .096-2.713s.839-.275 2.749 1.05a9.26 9.26 0 0 1 5.004 0c1.906-1.325 2.74-1.05 2.74-1.05.37.858.406 1.828.101 2.713a4.017 4.017 0 0 1 1.029 2.75c0 3.939-2.339 4.805-4.564 5.058a2.471 2.471 0 0 1 .679 1.897c0 1.372-.012 2.477-.012 2.814 0 .272.18.592.687.492a10.05 10.05 0 0 0 5.388-4.421 10.473 10.473 0 0 0 1.313-6.948 10.32 10.32 0 0 0-3.39-6.165A9.847 9.847 0 0 0 12.007 2Z"
-                  fill-rule="evenodd"></path>
-              </svg>
-            </a>
-
-            <a class="social-button" data-social="x" target="_blank"
-              rel="noopener noreferrer" href="https://x.com/creosb">
-              <svg
-                viewBox="0 0 512 512"
-                height="1.7em"
-                xmlns="http://www.w3.org/2000/svg"
-                class="svgIcon"
-                fill="white">
-                <path
-                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path>
-              </svg>
-            </a>
-            <a class="social-button" data-social="youtube" target="_blank"
-              rel="noopener noreferrer" href="https://www.youtube.com/@creosb">
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                height="24"
-                width="24"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                class="icon">
-                <path
-                  clip-rule="evenodd"
-                  d="M21.7 8.037a4.26 4.26 0 0 0-.789-1.964 2.84 2.84 0 0 0-1.984-.839c-2.767-.2-6.926-.2-6.926-.2s-4.157 0-6.928.2a2.836 2.836 0 0 0-1.983.839 4.225 4.225 0 0 0-.79 1.965 30.146 30.146 0 0 0-.2 3.206v1.5a30.12 30.12 0 0 0 .2 3.206c.094.712.364 1.39.784 1.972.604.536 1.38.837 2.187.848 1.583.151 6.731.2 6.731.2s4.161 0 6.928-.2a2.844 2.844 0 0 0 1.985-.84 4.27 4.27 0 0 0 .787-1.965 30.12 30.12 0 0 0 .2-3.206v-1.516a30.672 30.672 0 0 0-.202-3.206Zm-11.692 6.554v-5.62l5.4 2.819-5.4 2.801Z"
-                  fill-rule="evenodd"></path>
-              </svg>
-            </a>
-
-            <button class="premium-social-button" data-social="premium"
-              id="premium-social-button" title="Premium">
-              <svg viewBox="0 0 24 24" fill="currentColor" height="24"
-                width="24" class="icon" aria-hidden="true">
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.88L18.18 22 12 18.8 5.82 22 7 14.15l-5-4.88 6.91-1.01L12 2z" />
-              </svg>
-              <span class="premium-badge" aria-hidden="true">Premium</span>
-            </button>
+          <!-- <div class="footer">
+            <button id="settings-done-btn" class="done-btn" data-i18n="done">Done</button>
           </div> -->
-          <div class="footer">
-            <p class="footer-text" data-i18n="footerText"></p>
-          </div>
         </div>
       </main>
     </div>

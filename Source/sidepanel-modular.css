@@ -35,8 +35,298 @@
 @import './styles/premium.css';
 
 /* 12. Themes (loaded after base to override vars and subtle accents) */
+@import './styles/dialog.css';
 @import './styles/themes/synthwave.css';
 @import './styles/themes/glassmorphism.css';
 @import './styles/themes/neo-brutalism.css';
 @import './styles/themes/neo-noir.css';
 @import './styles/themes/neo-anime.css';
+/* 13. Material 3 expressive settings (overrides come last) */
+@import './styles/settings-material3.css';
+
+/* Settings Page General */
+.support-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--md-sys-color-surface, #2E2E33);
+  color: var(--md-sys-color-on-surface, #E2E2E6);
+}
+
+/* Settings Header */
+.settings-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant, #44474E);
+}
+
+.settings-title {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+}
+
+/* Settings Content */
+.settings-content {
+  flex-grow: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+}
+
+.settings-section {
+  background-color: var(--secondary-bg-color);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary-text-color);
+  margin: 0;
+}
+
+.section-header .section-title {
+  margin-bottom: 0;
+}
+
+/* Toggle List */
+.toggle-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.toggle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.toggle-list .toggle-item:last-child {
+  border-bottom: none;
+}
+
+.toggle-item .toggle-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.toggle-item .invert-color {
+  filter: invert(1);
+}
+
+.toggle-item span {
+  flex-grow: 1;
+  font-size: 0.95rem;
+  color: var(--secondary-text-color);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* M3 Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--md-sys-color-surface-container-highest, #363A3E);
+  border: 2px solid var(--md-sys-color-outline, #8E9099);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 6px;
+  bottom: 6px;
+  background-color: var(--md-sys-color-outline, #8E9099);
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input:checked + .slider {
+  background-color: var(--md-sys-color-primary, #A8C7FA);
+  border-color: var(--md-sys-color-primary, #A8C7FA);
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+  background-color: var(--md-sys-color-on-primary, #003355);
+  height: 24px;
+  width: 24px;
+  left: 4px;
+  bottom: 2px;
+}
+
+/* Shortcut Section */
+.manage-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary-text-color);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.manage-btn:hover {
+  background-color: var(--hover-bg-color);
+  color: var(--primary-text-color);
+}
+
+.manage-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.shortcut-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shortcut-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.shortcut-list .shortcut-item:last-child {
+  border-bottom: none;
+}
+
+.shortcut-input {
+  background-color: var(--primary-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-family: inherit;
+  color: var(--primary-text-color);
+  text-align: center;
+  width: 120px;
+}
+
+/* Custom Links Form */
+.add-link-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.add-link-form input {
+  flex-grow: 1;
+  background-color: var(--primary-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: var(--primary-text-color);
+}
+
+.add-link-form button {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-link-form button:hover {
+  background-color: #0056b3;
+}
+
+/* Appearance Section */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+#theme-select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--primary-bg-color);
+  color: var(--primary-text-color);
+  font-size: 0.95rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  color: var(--secondary-text-color);
+}
+
+/* Footer */
+.footer {
+  padding: 16px;
+  border-top: 1px solid var(--md-sys-color-outline-variant, #44474E);
+  text-align: right;
+}
+
+.done-btn {
+  background-color: var(--md-sys-color-primary, #A8C7FA);
+  color: var(--md-sys-color-on-primary, #003355);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s ease-in-out;
+}
+
+.done-btn:hover {
+  filter: brightness(1.1);
+}

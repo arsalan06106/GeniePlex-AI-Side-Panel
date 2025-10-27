@@ -13,33 +13,41 @@ export class CustomLinkManager {
     const addLinkBtn = document.getElementById('add-link-btn');
     if (addLinkBtn) {
       addLinkBtn.addEventListener('click', () => {
-        const input = document.getElementById('custom-link-input');
-        const url = input.value.trim();
+        // Support new two-field design (URL + Name) with fallback to legacy single field
+        const urlEl = document.getElementById('custom-link-url-input') || document.getElementById('custom-link-input');
+        const nameEl = document.getElementById('custom-link-name-input');
+        const url = (urlEl?.value || '').trim();
+        const name = (nameEl?.value || '').trim();
         if (url) {
-          const result = this.addCustomLink(url);
+          const result = this.addCustomLink(url, name);
           if (result) {
-            input.value = '';
+            if (urlEl) urlEl.value = '';
+            if (nameEl) nameEl.value = '';
           }
         }
       });
     }
 
-    // Allow adding custom links with Enter key
-    const customLinkInput = document.getElementById('custom-link-input');
-    if (customLinkInput) {
-      customLinkInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          const input = e.target;
-          const url = input.value.trim();
-          if (url) {
-            const result = this.addCustomLink(url);
-            if (result) {
-              input.value = '';
-            }
+    // Allow adding custom links with Enter key (any of the inputs)
+    const enterHandler = (e) => {
+      if (e.key === 'Enter') {
+        const urlEl = document.getElementById('custom-link-url-input') || document.getElementById('custom-link-input');
+        const nameEl = document.getElementById('custom-link-name-input');
+        const url = (urlEl?.value || '').trim();
+        const name = (nameEl?.value || '').trim();
+        if (url) {
+          const result = this.addCustomLink(url, name);
+          if (result) {
+            if (urlEl) urlEl.value = '';
+            if (nameEl) nameEl.value = '';
           }
         }
-      });
-    }
+      }
+    };
+    const urlInput = document.getElementById('custom-link-url-input') || document.getElementById('custom-link-input');
+    urlInput?.addEventListener('keypress', enterHandler);
+    const nameInput = document.getElementById('custom-link-name-input');
+    nameInput?.addEventListener('keypress', enterHandler);
 
     // Delete custom link handler
     const customLinksList = document.getElementById('custom-links-list');
@@ -133,11 +141,11 @@ export class CustomLinkManager {
       linkItem.innerHTML = `
         <span>${link.name}</span>
         <div class="custom-link-actions">
-          <label class="switch">
+          <label class="switch" title="Enable/Disable">
             <input type="checkbox" id="toggle-custom-${link.id}" ${link.enabled !== false ? 'checked' : ''}>
             <span class="slider"></span>
           </label>
-          <button class="delete-link-btn" data-id="${link.id}">✕</button>
+          <button class="icon-btn delete-link-btn" title="Delete" aria-label="Delete" data-id="${link.id}">✕</button>
         </div>
       `;
       linksList.appendChild(linkItem);
@@ -168,7 +176,7 @@ export class CustomLinkManager {
     
   }
 
-  addCustomLink(url) {
+  addCustomLink(url, providedName) {
     try {
       // Validate and normalize URL
       if (!url || typeof url !== 'string' || url.trim() === '') {
@@ -191,7 +199,10 @@ export class CustomLinkManager {
         return null;
       }
       
-      const name = urlObj.hostname.replace('www.', '').split('.')[0];
+      let name = (providedName || '').trim();
+      if (!name) {
+        name = urlObj.hostname.replace('www.', '').split('.')[0];
+      }
       
       // Ensure unique ID - use a more robust approach
       let uniqueId;
@@ -281,135 +292,53 @@ export class CustomLinkManager {
 
     // Create modal overlay
     const modalOverlay = document.createElement('div');
-    modalOverlay.className = 'delete-modal-overlay';
-    modalOverlay.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    `;
+    modalOverlay.className = 'dialog-overlay';
 
     // Create modal content
     const modalContent = document.createElement('div');
-    modalContent.className = 'delete-modal-content';
-    modalContent.style.cssText = `
-      background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
-      border-radius: 16px;
-      padding: 2rem;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transform: scale(0.9) translateY(20px);
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    `;
+    modalContent.className = 'dialog-content';
 
     // Premium icon
     const icon = document.createElement('div');
+    icon.className = 'dialog-icon';
     icon.innerHTML = `
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" style="margin-bottom: 1rem;">
-        <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="#ff6b6b"/>
-        <path d="M19 15L20.09 17.26L23 18L20.09 18.74L19 21L17.91 18.74L15 18L17.91 17.26L19 15Z" fill="#ffd93d"/>
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#f2b8b5"/>
       </svg>
     `;
 
     // Title
     const title = document.createElement('h3');
     title.textContent = 'Delete Custom Link';
-    title.style.cssText = `
-      color: #ffffff;
-      margin: 0 0 0.5rem 0;
-      font-size: 1.3rem;
-      font-weight: 600;
-    `;
+    title.className = 'dialog-title';
 
     // Message
     const message = document.createElement('p');
     message.textContent = localizedMessage;
-    message.style.cssText = `
-      color: #cccccc;
-      margin: 0 0 2rem 0;
-      font-size: 1rem;
-      line-height: 1.5;
-    `;
+    message.className = 'dialog-message';
 
     // Buttons container
     const buttonsContainer = document.createElement('div');
-    buttonsContainer.style.cssText = `
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-    `;
+    buttonsContainer.className = 'dialog-buttons';
 
     // Cancel button
     const cancelBtn = document.createElement('button');
     cancelBtn.textContent = 'Cancel';
-    cancelBtn.style.cssText = `
-      padding: 0.75rem 1.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: transparent;
-      color: #ffffff;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    `;
+    cancelBtn.className = 'dialog-button cancel';
 
     // Delete button
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'Delete';
-    deleteBtn.style.cssText = `
-      padding: 0.75rem 1.5rem;
-      border: none;
-      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-      color: #ffffff;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
-    `;
-
-    // Add hover effects
-    cancelBtn.addEventListener('mouseenter', () => {
-      cancelBtn.style.background = 'rgba(255, 255, 255, 0.1)';
-      cancelBtn.style.transform = 'translateY(-1px)';
-    });
-    cancelBtn.addEventListener('mouseleave', () => {
-      cancelBtn.style.background = 'transparent';
-      cancelBtn.style.transform = 'translateY(0)';
-    });
-
-    deleteBtn.addEventListener('mouseenter', () => {
-      deleteBtn.style.transform = 'translateY(-1px)';
-      deleteBtn.style.boxShadow = '0 6px 16px rgba(255, 107, 107, 0.4)';
-    });
-    deleteBtn.addEventListener('mouseleave', () => {
-      deleteBtn.style.transform = 'translateY(0)';
-      deleteBtn.style.boxShadow = '0 4px 12px rgba(255, 107, 107, 0.3)';
-    });
+    deleteBtn.className = 'dialog-button delete';
 
     // Event handlers
     const closeModal = () => {
-      modalOverlay.style.opacity = '0';
-      modalContent.style.transform = 'scale(0.9) translateY(20px)';
+      modalOverlay.classList.remove('visible');
       setTimeout(() => {
         if (modalOverlay.parentNode) {
           modalOverlay.parentNode.removeChild(modalOverlay);
         }
-      }, 300);
+      }, 200);
     };
 
     cancelBtn.addEventListener('click', closeModal);
@@ -439,8 +368,7 @@ export class CustomLinkManager {
 
     // Animate in
     requestAnimationFrame(() => {
-      modalOverlay.style.opacity = '1';
-      modalContent.style.transform = 'scale(1) translateY(0)';
+      modalOverlay.classList.add('visible');
     });
   }
 
