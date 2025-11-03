@@ -9,7 +9,7 @@
     "commands"
   ],
   "description": "Access all your favorite AI tools instantly in your Chrome side panel. Boost productivity with a split-screen workflow.",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "side_panel": {
     "default_path": "sidepanel.html"
   },

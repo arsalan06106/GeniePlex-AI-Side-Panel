@@ -206,7 +206,11 @@ export class SplitViewManager {
       // Hide the close button
       closeButton.style.display = 'none';
 
-      // Reset the width of the main iframe
+      // Reset the width of the main iframe's container
+      const iframeContainer = document.getElementById('iframe-container');
+      if (iframeContainer) {
+        iframeContainer.style.width = '100%';
+      }
       iframe.style.width = '100%';
 
       // exit split view mode
