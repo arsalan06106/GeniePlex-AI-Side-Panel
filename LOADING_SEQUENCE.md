@@ -1,4 +1,4 @@
-# GeniePlex Loading Sequence - Visual Flow
+# GeniePlex Ultimate AI Side Panel - Loading Sequence - Visual Flow
 
 ## Timeline Diagram
 
