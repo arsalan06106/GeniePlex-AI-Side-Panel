@@ -42,6 +42,12 @@
 
 ## Installation
 
+### Install from Chrome Web Store (Recommended)
+
+Visit the [Chrome Web Store](https://chromewebstore.google.com/detail/kcilllhjfmefpahddhdbpfmghjkffiob?authuser=0&hl=en) and click "Add to Chrome".
+
+### Install from Source
+
 1. **Download the Extension**: Clone this repository or download the latest release from [GitHub Releases](https://github.com/arsalan06106/GeniePlex-AI-Side-Panel/releases).
 2. **Load the Extension into Chrome**:
 
