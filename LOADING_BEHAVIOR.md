@@ -2,7 +2,7 @@
 
 ## User Experience Flow
 
-When the GeniePlex AI Side Panel extension is activated, the user experience follows this optimized sequence:
+When the GeniePlex Ultimate AI Side Panel is activated, the user experience follows this optimized sequence:
 
 ### 1. **Immediate Display** (0ms)
 - ✅ **Navbar shows instantly** - The toolbar with all AI service buttons is immediately visible
