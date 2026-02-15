@@ -1,13 +1,25 @@
 
+<div align="center">
+
 # GeniePlex Ultimate AI Side Panel
 
-Access all your favorite AI tools instantly in your Chrome side panel. Boost productivity with a split-screen workflow.
+Access all your favorite AI tools instantly in your Chrome side panel.
+Boost productivity with a split-screen workflow.
 
 [![Chrome](https://raw.githubusercontent.com/creosB/creosB/refs/heads/main/assets/Chrome%20Web%20Store.svg)](https://chromewebstore.google.com/detail/kcilllhjfmefpahddhdbpfmghjkffiob?authuser=0&hl=en)
 
+</div>
+
 ---
 
-GeniePlex Ultimate AI Side Panel is a Chrome extension that puts 11 AI services one click away from any tab. It opens as a side panel — no new windows, no context switching — so you can browse and use AI at the same time.
+<div align="center">
+
+GeniePlex Ultimate AI Side Panel is a Chrome extension that puts 11 AI services one click away from any tab.
+It opens as a native side panel — no new windows, no context switching — so you can browse and use AI at the same time.
+
+</div>
+
+---
 
 ## Supported AI Services
 
@@ -19,9 +31,9 @@ GeniePlex Ultimate AI Side Panel is a Chrome extension that puts 11 AI services 
 | DeepSeek | Grok | Mistral | Perplexity |
 | Qwen | Kimi | GitHub Copilot | *+ Custom Links* |
 
-</div>
-
 Add any site you want through the settings menu. If it has a URL, it works.
+
+</div>
 
 ---
 
@@ -77,7 +89,7 @@ The simplest route. Click the badge below, then hit Add to Chrome.
 
 ## Usage
 
-Click the extension icon in the Chrome toolbar — or press `Alt + Q` — to open the side panel. From there, click any AI service icon to load it. Use `Alt + Shift + N` and `Alt + Shift + P` to cycle through services without touching the mouse.
+Click the extension icon in the Chrome toolbar — or press `Alt + Q` — to open the side panel. Click any AI service icon to load it. Use `Alt + Shift + N` and `Alt + Shift + P` to cycle through services without touching the mouse.
 
 Drag and drop the icons to reorder them. Open settings to add custom links, toggle individual services on or off, or enable split view.
 
