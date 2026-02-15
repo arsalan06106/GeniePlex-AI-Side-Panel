@@ -12,9 +12,7 @@
   justify-content: flex-start;
   align-items: center;
   gap: 2px;
-  /* Reduced gap for a tighter feel */
   padding: 4px 4px;
-  /* M3 standard padding */
   background-color: var(--surface-container);
   border-bottom: 1px solid var(--outline-variant);
   position: relative;
@@ -25,8 +23,12 @@
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
   transition:
-    background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    box-shadow calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+    background-color
+      calc(var(--standard-duration) * var(--motion-duration-multiplier))
+      var(--ease-out-quart),
+    box-shadow
+      calc(var(--standard-duration) * var(--motion-duration-multiplier))
+      var(--ease-out-quart);
   visibility: visible !important;
   opacity: 1 !important;
 }
@@ -44,11 +46,13 @@
   left: 0;
   width: 64px;
   /* Match button width */
-  height: 32px;
-  /* Match button height */
-  background-color: var(--primary-container);
-  border-radius: 100px;
+  height: 48px; /* Match button height in sidepanel.html */
+  background-color: color-mix(in srgb, var(--glass-highlight) 15%, transparent);
+  border-radius: 99em;
   z-index: 0;
+  backdrop-filter: blur(4px);
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--glass-highlight) 10%, transparent);
   transition:
     transform var(--duration-medium4) var(--ease-emphasized),
     width var(--duration-medium2) var(--ease-emphasized),
@@ -65,13 +69,17 @@
   /* Cover full height */
   width: 32px;
   /* Wider fade */
-  background: linear-gradient(to right,
-      var(--surface-container) 20%,
-      transparent 100%);
+  background: linear-gradient(
+    to right,
+    var(--surface-container) 20%,
+    transparent 100%
+  );
   opacity: 0;
   z-index: 10;
   pointer-events: none;
-  transition: opacity calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  transition: opacity
+    calc(var(--standard-duration) * var(--motion-duration-multiplier))
+    var(--ease-out-quart);
 }
 
 .toolbar-scroll-fade-right {
@@ -83,13 +91,17 @@
   /* Cover full height */
   width: 32px;
   /* Wider fade */
-  background: linear-gradient(to left,
-      var(--surface-container) 20%,
-      transparent 100%);
+  background: linear-gradient(
+    to left,
+    var(--surface-container) 20%,
+    transparent 100%
+  );
   opacity: 0;
   z-index: 10;
   pointer-events: none;
-  transition: opacity calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  transition: opacity
+    calc(var(--standard-duration) * var(--motion-duration-multiplier))
+    var(--ease-out-quart);
 }
 
 .toolbar.scroll-left .toolbar-scroll-fade-left {
@@ -112,7 +124,9 @@
 .toolbar.scrollbar-hover-only .toolbar-scroll-fade-right {
   bottom: 0;
   /* No scrollbar space needed when hidden */
-  transition: bottom calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  transition: bottom
+    calc(var(--standard-duration) * var(--motion-duration-multiplier))
+    var(--ease-out-quart);
 }
 
 .toolbar.scrollbar-hover-only:hover .toolbar-scroll-fade-left,
@@ -132,7 +146,8 @@
 .toolbar .btn.dragging {
   opacity: 0.88;
   cursor: grabbing;
-  transform: scale(calc(1 + 0.02 * var(--motion-scale))) translateY(calc(-4px * var(--motion-scale)));
+  transform: scale(calc(1 + 0.02 * var(--motion-scale)))
+    translateY(calc(-4px * var(--motion-scale)));
   z-index: 100;
   background-color: var(--hover-color);
   box-shadow:
@@ -169,7 +184,7 @@
   overflow: hidden;
 }
 
-#iframe-container>iframe {
+#iframe-container > iframe {
   position: absolute;
   top: 0;
   left: 0;
@@ -181,8 +196,10 @@
   background-color: var(--surface);
   display: none;
   transition:
-    opacity calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    transform calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+    opacity calc(var(--standard-duration) * var(--motion-duration-multiplier))
+      var(--ease-out-quart),
+    transform calc(var(--standard-duration) * var(--motion-duration-multiplier))
+      var(--ease-out-quart);
 }
 
 .content iframe {
@@ -194,8 +211,10 @@
   padding: 0;
   background-color: var(--surface);
   transition:
-    opacity calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    transform calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+    opacity calc(var(--standard-duration) * var(--motion-duration-multiplier))
+      var(--ease-out-quart),
+    transform calc(var(--standard-duration) * var(--motion-duration-multiplier))
+      var(--ease-out-quart);
 }
 
 /* Premium Frame transitions */
@@ -205,8 +224,10 @@ iframe {
   border: 0;
   background-color: var(--surface);
   transition:
-    opacity calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo),
-    transform calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+    opacity calc(var(--quick-duration) * var(--motion-duration-multiplier))
+      var(--ease-out-expo),
+    transform calc(var(--standard-duration) * var(--motion-duration-multiplier))
+      var(--ease-out-quart);
 }
 
 iframe.loading {
@@ -219,8 +240,10 @@ iframe.loading {
   width: 100%;
   height: 100%;
   transition:
-    width calc(var(--spring-duration) * var(--motion-duration-multiplier)) var(--ease-spring),
-    opacity calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+    width calc(var(--spring-duration) * var(--motion-duration-multiplier))
+      var(--ease-spring),
+    opacity calc(var(--standard-duration) * var(--motion-duration-multiplier))
+      var(--ease-out-quart);
 }
 
 /* Custom macOS-like scrollbar for Webkit browsers */
@@ -239,7 +262,9 @@ iframe.loading {
 .toolbar::-webkit-scrollbar-thumb {
   background: var(--surface-container-highest);
   border-radius: 3px;
-  transition: all calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  transition: all
+    calc(var(--quick-duration) * var(--motion-duration-multiplier))
+    var(--ease-out-quart);
   min-width: 20px;
   /* Minimum thumb size for better usability */
 }
@@ -262,7 +287,9 @@ iframe.loading {
 /* Hover-only scrollbar mode */
 .toolbar.scrollbar-hover-only::-webkit-scrollbar {
   height: 0;
-  transition: height calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  transition: height
+    calc(var(--standard-duration) * var(--motion-duration-multiplier))
+    var(--ease-out-quart);
 }
 
 .toolbar.scrollbar-hover-only:hover::-webkit-scrollbar,
@@ -274,7 +301,9 @@ iframe.loading {
 
 .toolbar.scrollbar-hover-only::-webkit-scrollbar-track {
   opacity: 0;
-  transition: opacity calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  transition: opacity
+    calc(var(--standard-duration) * var(--motion-duration-multiplier))
+    var(--ease-out-quart);
 }
 
 .toolbar.scrollbar-hover-only:hover::-webkit-scrollbar-track,
@@ -285,7 +314,9 @@ iframe.loading {
 
 .toolbar.scrollbar-hover-only::-webkit-scrollbar-thumb {
   opacity: 0;
-  transition: all calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  transition: all
+    calc(var(--standard-duration) * var(--motion-duration-multiplier))
+    var(--ease-out-quart);
 }
 
 .toolbar.scrollbar-hover-only:hover::-webkit-scrollbar-thumb,
@@ -297,7 +328,9 @@ iframe.loading {
 /* Firefox hover-only mode */
 .toolbar.scrollbar-hover-only {
   scrollbar-width: none;
-  transition: scrollbar-width calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  transition: scrollbar-width
+    calc(var(--standard-duration) * var(--motion-duration-multiplier))
+    var(--ease-out-quart);
 }
 
 .toolbar.scrollbar-hover-only:hover,

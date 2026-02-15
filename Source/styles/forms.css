@@ -35,30 +35,32 @@
   flex-grow: 1;
 }
 
-/* Filled Text Field - M3 Style */
-#custom-link-input,
+/* filled Text Field - Glass Style */
+#custom-link-url-input,
 .shortcut-input {
-  background: var(--surface-container-high);
-  border: none;
-  color: var(--on-surface);
-  padding: 16px;
-  border-radius: 4px 4px 0 0;
-  font-size: 1rem;
-  transition: 
-    border-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
-  position: relative;
-  border-bottom: 1px solid var(--outline);
+  background-color: color-mix(in srgb, var(--glass-base) 8%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid color-mix(in srgb, var(--glass-highlight) 12%, transparent);
+  color: var(--glass-content-color);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.25s var(--ease-out-quart);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-#custom-link-input:focus,
+#custom-link-url-input:focus,
 .shortcut-input:focus {
   outline: none;
-  background-color: var(--surface-container-highest);
-  border-bottom: 2px solid var(--primary-color);
+  background-color: color-mix(in srgb, var(--glass-base) 12%, transparent);
+  border-color: color-mix(in srgb, var(--glass-highlight) 40%, transparent);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.08),
+    0 0 0 3px color-mix(in srgb, var(--glass-highlight) 8%, transparent);
 }
 
-#custom-link-input {
+#custom-link-url-input {
   flex-grow: 1;
 }
 
@@ -68,22 +70,7 @@
   margin-bottom: 1rem;
 }
 
-#add-link-btn {
-    background-color: var(--primary-color);
-    color: var(--on-primary);
-    border: none;
-    border-radius: 100px;
-    padding: 0 24px;
-    height: 40px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
-}
-
-#add-link-btn:hover {
-    background-color: color-mix(in srgb, var(--primary-color) 90%, white);
-}
+/* #add-link-btn style handled by .glass-btn in sidepanel.html */
 
 /* Shortcut Section Styles */
 .shortcut-header {
@@ -94,20 +81,20 @@
 }
 
 .shortcut-button {
-    background: none;
-    border: none;
-    color: var(--on-surface-variant);
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background: none;
+  border: none;
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .shortcut-button:hover {
-    background-color: var(--surface-container-high);
-    color: var(--on-surface);
+  background-color: var(--surface-container-high);
+  color: var(--on-surface);
 }
 
 .shortcut-item {
@@ -125,11 +112,11 @@
 }
 
 .shortcut-info {
-    font-size: 0.8rem;
-    color: var(--on-surface-variant);
-    opacity: 0.8;
-    margin-top: 16px;
-    line-height: 1.4;
+  font-size: 0.8rem;
+  color: var(--on-surface-variant);
+  opacity: 0.8;
+  margin-top: 16px;
+  line-height: 1.4;
 }
 
 /* Material 3 Select Menu */
@@ -154,7 +141,9 @@
   height: 24px;
   pointer-events: none;
   color: var(--on-surface-variant);
-  transition: transform calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-back);
+  transition: transform
+    calc(var(--standard-duration) * var(--motion-duration-multiplier))
+    var(--ease-out-back);
 }
 
 select {
@@ -169,7 +158,7 @@ select {
   font-weight: 400;
   cursor: pointer;
   padding: 0;
-  margin:0;
+  margin: 0;
 }
 
 .select-wrapper:focus-within,
@@ -181,12 +170,12 @@ select {
   transform: translateY(-50%) rotate(180deg);
 }
 
-/* Material 3 Switch */
+/* Material 3 Switch - Liquid Glass Edition */
 .switch {
   position: relative;
   display: inline-block;
-  width: 52px;
-  height: 32px;
+  width: 44px;
+  height: 22px;
   flex-shrink: 0;
 }
 
@@ -203,10 +192,13 @@ select {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--surface-container-highest);
-  border: 2px solid var(--outline);
-  transition: all calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
-  border-radius: 16px;
+  background-color: color-mix(in srgb, var(--glass-base) 18%, transparent);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid color-mix(in srgb, var(--glass-highlight) 10%, transparent);
+  transition: all 0.3s var(--ease-out-quart);
+  border-radius: 99em;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .slider:before {
@@ -214,38 +206,54 @@ select {
   content: "";
   height: 16px;
   width: 16px;
-  left: 6px;
-  bottom: 6px;
-  background-color: var(--outline);
-  transition: all calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-spring);
+  left: 2px;
+  bottom: 2px;
+  background-color: #fff;
+  transition: all 0.3s var(--ease-spring);
   border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  z-index: 2;
 }
 
 input:checked + .slider {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
+  background-color: color-mix(in srgb, var(--glass-highlight) 35%, transparent);
+  border-color: color-mix(in srgb, var(--glass-highlight) 45%, transparent);
 }
 
 input:checked + .slider:before {
-  transform: translateX(20px);
-  background-color: var(--on-primary);
-  height: 24px;
-  width: 24px;
-  left: 2px;
-  bottom: 2px;
+  transform: translateX(22px);
+  background-color: #fff;
 }
 
 /* Hover state for switch */
-.switch:hover .slider:before {
-    box-shadow: 0 0 0 8px color-mix(in srgb, var(--on-surface) 8%, transparent);
+.switch:hover .slider {
+  background-color: color-mix(in srgb, var(--glass-base) 25%, transparent);
+  border-color: color-mix(in srgb, var(--glass-highlight) 20%, transparent);
 }
 
-input:checked:hover + .slider:before {
-    box-shadow: 0 0 0 8px color-mix(in srgb, var(--primary-color) 20%, transparent);
+input:checked:hover + .slider {
+  background-color: color-mix(in srgb, var(--glass-highlight) 45%, transparent);
 }
 
 /* Focus state for switch */
 input:focus-visible + .slider {
-  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--glass-highlight) 15%, transparent);
+}
+
+/* Shortcut Box - Glass Tile */
+.shortcut-display {
+  display: inline-flex;
+  padding: 4px 10px;
+  background-color: color-mix(in srgb, var(--glass-base) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--glass-highlight) 15%, transparent);
+  border-radius: 6px;
+  color: var(--glass-content-color);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }

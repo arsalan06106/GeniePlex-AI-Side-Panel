@@ -4,7 +4,7 @@
 .support-page {
   background: var(--md-sys-color-surface);
   color: var(--md-sys-color-on-surface);
-  font-family: 'Google Sans', 'Roboto', sans-serif;
+  font-family: "Google Sans", "Roboto", sans-serif;
 }
 
 .settings-header {
@@ -36,7 +36,43 @@
 }
 
 .settings-section {
-  background: var(--md-sys-color-surface-container);
+  background-color: color-mix(in srgb, var(--glass-base) 15%, transparent);
+  backdrop-filter: blur(var(--glass-blur-radius))
+    saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius))
+    saturate(var(--glass-saturation));
+  box-shadow:
+    inset 0 1px 0 0
+      color-mix(
+        in srgb,
+        var(--glass-highlight) calc(var(--glass-reflex-opacity-light) * 30%),
+        transparent
+      ),
+    inset 0 0 0 1px
+      color-mix(
+        in srgb,
+        var(--glass-highlight) calc(var(--glass-reflex-opacity-light) * 15%),
+        transparent
+      ),
+    inset 2px 4px 0px -2px
+      color-mix(
+        in srgb,
+        var(--glass-highlight) calc(var(--glass-reflex-opacity-light) * 80%),
+        transparent
+      ),
+    inset -1.5px 2.5px 0px -2px
+      color-mix(
+        in srgb,
+        var(--glass-shadow) calc(var(--glass-reflex-opacity-dark) * 20%),
+        transparent
+      ),
+    0px 8px 16px -4px
+      color-mix(
+        in srgb,
+        var(--glass-shadow) calc(var(--glass-reflex-opacity-dark) * 20%),
+        transparent
+      );
+  border: none;
   border-radius: var(--md-sys-shape-corner-extra-large);
   padding: 8px 0;
   overflow: hidden;
@@ -58,7 +94,7 @@
 }
 
 /* Handle titles that are direct children (like General, Service Visibility) */
-.settings-section>.section-title {
+.settings-section > .section-title {
   padding: 16px 24px 8px;
   display: block;
 }
@@ -88,19 +124,20 @@
 }
 
 .toggle-item:hover {
-  background-color: var(--md-sys-color-surface-container-high);
+  background-color: color-mix(in srgb, var(--glass-highlight) 5%, transparent);
 }
 
 .toggle-item .toggle-icon {
   width: 24px;
   height: 24px;
-  color: var(--md-sys-color-on-surface-variant);
+  color: var(--glass-content-color);
   flex-shrink: 0;
+  opacity: 0.85;
 }
 
 .toggle-item span {
   font: var(--md-sys-typescale-body-large);
-  color: var(--md-sys-color-on-surface);
+  color: var(--glass-content-color);
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
@@ -108,73 +145,12 @@
 }
 
 .toggle-item .invert-color {
-  filter: invert(1);
+  filter: brightness(0) invert(1);
 }
 
-/* MD3 Switch */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 52px;
-  height: 32px;
-  flex-shrink: 0;
-}
+/* MD3 Switch - Replaced by Liquid Glass in forms.css */
 
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--md-sys-color-surface-container-highest);
-  border: 2px solid var(--md-sys-color-outline);
-  border-radius: 100px;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 16px;
-  width: 16px;
-  left: 6px;
-  bottom: 6px;
-  background-color: var(--md-sys-color-outline);
-  border-radius: 50%;
-  transition: .4s cubic-bezier(0.2, 0.0, 0, 1.0);
-}
-
-/* Checked State */
-input:checked+.slider {
-  background-color: var(--md-sys-color-primary);
-  border-color: var(--md-sys-color-primary);
-}
-
-input:checked+.slider:before {
-  transform: translateX(20px);
-  background-color: var(--md-sys-color-on-primary);
-  height: 24px;
-  width: 24px;
-  left: 2px;
-  /* Adjust for larger thumb */
-  bottom: 2px;
-}
-
-/* Active/Pressed State (Optional refinement) */
-.switch:active .slider:before {
-  width: 28px;
-}
-
-input:checked:active+.slider:before {
-  transform: translateX(16px);
-}
+/* Legacy switch overrides removed */
 
 /* Custom Links Section */
 .add-link-form {
@@ -187,19 +163,7 @@ input:checked:active+.slider:before {
 .add-link-form input {
   flex: 1;
   min-width: 120px;
-  height: 48px;
-  /* Touch target */
-  background: var(--md-sys-color-surface-container-high);
-  border: 1px solid var(--md-sys-color-outline);
-  border-radius: var(--md-sys-shape-corner-small);
-  padding: 0 16px;
-  color: var(--md-sys-color-on-surface);
-  font: var(--md-sys-typescale-body-large);
-}
-
-.add-link-form input:focus {
-  outline: 2px solid var(--md-sys-color-primary);
-  border-color: transparent;
+  /* Glass style handled by .glass-input or ID in forms.css */
 }
 
 .add-link-form button#add-link-btn {
@@ -212,10 +176,6 @@ input:checked:active+.slider:before {
   font: var(--md-sys-typescale-label-large);
   cursor: pointer;
   transition: box-shadow var(--standard-duration) var(--ease-out-quart);
-}
-
-.add-link-form button#add-link-btn:hover {
-  box-shadow: var(--md-sys-elevation-level1);
 }
 
 /* Custom Link Items */
@@ -263,20 +223,10 @@ input:checked:active+.slider:before {
 
 .shortcut-item span {
   font: var(--md-sys-typescale-body-large);
-  color: var(--md-sys-color-on-surface);
+  color: var(--glass-content-color);
 }
 
-.shortcut-input {
-  background: var(--md-sys-color-surface-container-high);
-  border: 1px solid var(--md-sys-color-outline-variant);
-  border-radius: 8px;
-  padding: 6px 12px;
-  color: var(--md-sys-color-on-surface-variant);
-  font-family: monospace;
-  font-size: 14px;
-  width: 140px;
-  text-align: center;
-}
+/* .shortcut-input glass style handled in forms.css */
 
 /* Manage Shortcuts Button */
 .manage-btn {

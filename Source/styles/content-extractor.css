@@ -1,7 +1,5 @@
 /* Content Extractor Styles */
 
-
-
 #content-extractor-btn.loading svg {
   animation: spin 1s linear infinite;
 }
@@ -12,18 +10,42 @@
   top: 20px;
   right: 20px;
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: 99em;
   font-size: 0.9rem;
   font-weight: 500;
   z-index: 1000;
   display: none;
   max-width: 300px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: 
-    opacity calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
-    transform calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  background-color: color-mix(in srgb, var(--glass-base) 12%, transparent);
+  backdrop-filter: blur(var(--glass-blur-radius)) url(#glass-blur)
+    saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius))
+    saturate(var(--glass-saturation));
+  box-shadow:
+    inset 0 0 0 1px
+      color-mix(
+        in srgb,
+        var(--glass-highlight) calc(var(--glass-reflex-opacity-light) * 10%),
+        transparent
+      ),
+    inset 1.8px 3px 0px -2px
+      color-mix(
+        in srgb,
+        var(--glass-highlight) calc(var(--glass-reflex-opacity-light) * 90%),
+        transparent
+      ),
+    0px 1px 5px 0px
+      color-mix(
+        in srgb,
+        var(--glass-shadow) calc(var(--glass-reflex-opacity-dark) * 10%),
+        transparent
+      );
+  border: none;
+  transition:
+    opacity calc(var(--standard-duration) * var(--motion-duration-multiplier))
+      var(--ease-out-quart),
+    transform calc(var(--standard-duration) * var(--motion-duration-multiplier))
+      var(--ease-out-quart);
   transform: translateY(-10px);
   opacity: 0;
 }
@@ -32,14 +54,18 @@
   background: rgba(0, 255, 170, 0.1);
   color: var(--primary-color);
   border-color: rgba(0, 255, 170, 0.3);
-  animation: slideInSuccess calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-back) forwards;
+  animation: slideInSuccess
+    calc(var(--standard-duration) * var(--motion-duration-multiplier))
+    var(--ease-out-back) forwards;
 }
 
 .content-extractor-feedback.error {
   background: rgba(255, 77, 77, 0.1);
   color: #ff4d4d;
   border-color: rgba(255, 77, 77, 0.3);
-  animation: slideInError calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-back) forwards;
+  animation: slideInError
+    calc(var(--standard-duration) * var(--motion-duration-multiplier))
+    var(--ease-out-back) forwards;
 }
 
 /* Spin animation for loading state */
@@ -115,7 +141,7 @@
     background: #00ff00;
     color: #000000;
   }
-  
+
   .content-extractor-feedback.error {
     background: #ff0000;
     color: #ffffff;
@@ -127,12 +153,12 @@
   #content-extractor-btn.loading svg {
     animation: none;
   }
-  
+
   .content-extractor-feedback {
     transition: none;
     animation: none;
   }
-  
+
   .content-extractor-feedback.success,
   .content-extractor-feedback.error {
     opacity: 1;
@@ -166,13 +192,18 @@
 }
 
 #content-extractor-btn.loading::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(0, 255, 170, 0.2), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 170, 0.2),
+    transparent
+  );
   animation: shimmer 1.5s infinite;
 }
 
@@ -211,7 +242,9 @@
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 250ms var(--ease-out-quart), visibility 250ms;
+  transition:
+    opacity 250ms var(--ease-out-quart),
+    visibility 250ms;
 }
 
 .extraction-modal.show {
@@ -220,7 +253,61 @@
 }
 
 .extraction-modal-content {
-  background: var(--surface-container);
+  background-color: color-mix(in srgb, var(--glass-base) 12%, transparent);
+  backdrop-filter: blur(var(--glass-blur-radius)) url(#glass-blur)
+    saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur-radius))
+    saturate(var(--glass-saturation));
+  box-shadow:
+    inset 0 0 0 1px
+      color-mix(
+        in srgb,
+        var(--glass-highlight) calc(var(--glass-reflex-opacity-light) * 10%),
+        transparent
+      ),
+    inset 1.8px 3px 0px -2px
+      color-mix(
+        in srgb,
+        var(--glass-highlight) calc(var(--glass-reflex-opacity-light) * 90%),
+        transparent
+      ),
+    inset -2px -2px 0px -2px
+      color-mix(
+        in srgb,
+        var(--glass-highlight) calc(var(--glass-reflex-opacity-light) * 80%),
+        transparent
+      ),
+    inset -3px -8px 1px -6px
+      color-mix(
+        in srgb,
+        var(--glass-highlight) calc(var(--glass-reflex-opacity-light) * 60%),
+        transparent
+      ),
+    inset -0.3px -1px 4px 0px
+      color-mix(
+        in srgb,
+        var(--glass-shadow) calc(var(--glass-reflex-opacity-dark) * 12%),
+        transparent
+      ),
+    inset -1.5px 2.5px 0px -2px
+      color-mix(
+        in srgb,
+        var(--glass-shadow) calc(var(--glass-reflex-opacity-dark) * 20%),
+        transparent
+      ),
+    0px 1px 5px 0px
+      color-mix(
+        in srgb,
+        var(--glass-shadow) calc(var(--glass-reflex-opacity-dark) * 10%),
+        transparent
+      ),
+    0px 6px 16px 0px
+      color-mix(
+        in srgb,
+        var(--glass-shadow) calc(var(--glass-reflex-opacity-dark) * 8%),
+        transparent
+      );
+  border: none;
   border-radius: 28px; /* M3 Dialog shape */
   padding: 24px;
   max-width: 560px;
@@ -228,7 +315,6 @@
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   transform: scale(0.95);
   transition: transform 250ms var(--ease-out-quart);
 }
@@ -253,22 +339,27 @@
 }
 
 .extraction-modal-close {
-  background: none;
+  background: color-mix(in srgb, var(--glass-base) 10%, transparent);
   border: none;
-  color: var(--on-surface-variant);
+  color: var(--glass-content-color);
   font-size: 24px;
   cursor: pointer;
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 150ms linear;
+  transition: all 0.2s var(--ease-out-quart);
 }
 
 .extraction-modal-close:hover {
-  background-color: var(--surface-container-highest);
+  background-color: color-mix(in srgb, var(--glass-base) 30%, transparent);
+  transform: scale(1.1);
+}
+
+.extraction-modal-close:active {
+  transform: scale(0.9);
 }
 
 .extraction-modal-body {
@@ -280,8 +371,6 @@
   margin-right: -8px;
   padding-right: 8px;
 }
-
-
 
 /* M3 List for Options */
 .extraction-options {
