@@ -51,9 +51,15 @@ export class SettingsManager {
       const nextCmd = get('next_ai_model');
       const prevCmd = get('previous_ai_model');
       const openInput = document.getElementById('shortcut-input');
-      if (openCmd?.shortcut && openInput) openInput.value = openCmd.shortcut;
-        if (nextInput) nextInput.value = nextCmd?.shortcut || this._t?.('notSet') || 'Not set';
-        if (prevInput) prevInput.value = prevCmd?.shortcut || this._t?.('notSet') || 'Not set';
+      
+      // Default shortcuts from manifest
+      const defaultOpen = 'Alt+Q';
+      const defaultNext = 'Alt+Shift+N';
+      const defaultPrev = 'Alt+Shift+P';
+
+      if (openInput) openInput.value = openCmd?.shortcut || defaultOpen;
+      if (nextInput) nextInput.value = nextCmd?.shortcut || defaultNext;
+      if (prevInput) prevInput.value = prevCmd?.shortcut || defaultPrev;
     });
   }
 

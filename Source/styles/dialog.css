@@ -1,4 +1,4 @@
-/* Dialog Styles */
+/* Material 3 Expressive Dialog */
 
 .dialog-overlay {
   position: fixed;
@@ -7,13 +7,14 @@
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
+  /* Scrim */
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity var(--standard-duration) var(--ease-out-quart);
 }
 
 .dialog-overlay.visible {
@@ -21,75 +22,86 @@
 }
 
 .dialog-content {
-  background: #2e2e33; /* Material 3 surface color */
-  border-radius: 16px;
+  background: var(--md-sys-color-surface-container-high);
+  border-radius: var(--md-sys-shape-corner-extra-large);
   padding: 24px;
-  max-width: 400px;
+  max-width: 320px;
+  /* M3 Standard */
   width: 90%;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transform: scale(0.95);
-  transition: transform 0.2s ease-in-out;
+  box-shadow: var(--md-sys-elevation-level3);
+  border: none;
+  transform: scale(0.9);
+  transition: transform var(--spring-duration) var(--ease-spring);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .dialog-overlay.visible .dialog-content {
-    transform: scale(1);
+  transform: scale(1);
 }
 
 .dialog-icon {
   margin-bottom: 16px;
+  color: var(--md-sys-color-secondary);
 }
 
 .dialog-icon svg {
-    width: 48px;
-    height: 48px;
+  width: 24px;
+  height: 24px;
 }
 
 .dialog-title {
-  color: #e3e3e3;
-  margin: 0 0 8px 0;
-  font-size: 1.4rem;
-  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+  margin: 0 0 16px 0;
+  font: var(--md-sys-typescale-headline-small);
 }
 
 .dialog-message {
-  color: #c7c7c7;
+  color: var(--md-sys-color-on-surface-variant);
   margin: 0 0 24px 0;
-  font-size: 1rem;
-  line-height: 1.5;
+  font: var(--md-sys-typescale-body-medium);
+  line-height: 20px;
 }
 
 .dialog-buttons {
   display: flex;
-  gap: 12px;
+  gap: 8px;
+  width: 100%;
   justify-content: flex-end;
 }
 
 .dialog-button {
-  padding: 10px 24px;
+  padding: 0 24px;
+  height: 40px;
   border: none;
-  border-radius: 20px;
+  border-radius: 100px;
   cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
+  font: var(--md-sys-typescale-label-large);
+  transition: background-color var(--standard-duration) var(--ease-out-quart);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .dialog-button.cancel {
   background-color: transparent;
-  color: #a9c7ff;
+  color: var(--md-sys-color-primary);
 }
 
 .dialog-button.cancel:hover {
-  background-color: rgba(169, 199, 255, 0.1);
+  background-color: rgba(168, 199, 250, 0.08);
+  /* Primary opacity 8% */
 }
 
 .dialog-button.delete {
-  background-color: #f2b8b5;
-  color: #3e0503;
+  background-color: var(--md-sys-color-error);
+  color: var(--md-sys-color-on-error);
 }
 
 .dialog-button.delete:hover {
-  background-color: #eea29f;
+  background-color: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+  box-shadow: var(--md-sys-elevation-level1);
 }

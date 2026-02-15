@@ -10,18 +10,24 @@
   justify-content: center;
   font-size: 0.8rem;
   position: relative;
-  overflow: visible; /* Allow state layer to expand */
+  overflow: visible;
+  /* Allow state layer to expand */
   cursor: grab;
   touch-action: none;
   user-select: none;
   transform-origin: center;
   will-change: transform, opacity;
-  border-radius: 100px; /* Fully rounded for pill shape */
-  width: 64px; /* M3 standard touch target width */
-  height: 32px; /* M3 standard touch target height */
+  border-radius: 100px;
+  /* Fully rounded for pill shape */
+  width: 64px;
+  /* M3 standard touch target width */
+  height: 32px;
+  /* M3 standard touch target height */
   flex-shrink: 0;
-  transition: 
-    background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
+  transition:
+    background-color var(--duration-medium2) var(--ease-standard),
+    transform var(--duration-short4) var(--ease-emphasized),
+    opacity var(--duration-medium2) var(--ease-standard);
 }
 
 .btn .state-layer {
@@ -34,35 +40,41 @@
   background-color: var(--primary-color);
   opacity: 0;
   transform: scale(0.8);
-  pointer-events: none; /* Don't interfere with button clicks */
-  transition: 
+  pointer-events: none;
+  /* Don't interfere with button clicks */
+  transition:
     transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
     opacity calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
 }
 
 .btn:hover .state-layer {
-  opacity: 0.08; /* M3 hover opacity */
+  opacity: 0.08;
+  /* M3 hover opacity */
   transform: scale(1);
 }
 
 .btn:active .state-layer {
-  opacity: 0.12; /* M3 pressed opacity */
+  opacity: 0.12;
+  /* M3 pressed opacity */
   transform: scale(1);
   transition-duration: calc(var(--quick-duration) * var(--motion-duration-multiplier) * 0.5);
 }
 
 .btn.active .state-layer {
-  opacity: 0.16; /* M3 active state opacity */
+  opacity: 0.16;
+  /* M3 active state opacity */
   transform: scale(1);
 }
 
 .toolbar-icon {
-  position: relative; /* Ensure icon is above state layer */
+  position: relative;
+  /* Ensure icon is above state layer */
   z-index: 1;
   width: 24px;
   height: 24px;
-  pointer-events: none; /* Don't interfere with button clicks */
-  transition: 
+  pointer-events: none;
+  /* Don't interfere with button clicks */
+  transition:
     transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo);
 }
 
@@ -88,14 +100,14 @@
 .btn.dragging {
   opacity: 0.88;
   cursor: grabbing;
-  transform: scale(calc(1 + 0.02 * var(--motion-scale))) 
-             translateY(calc(-4px * var(--motion-scale)));
+  transform: scale(calc(1 + 0.02 * var(--motion-scale))) translateY(calc(-4px * var(--motion-scale)));
   z-index: 100;
   background-color: var(--hover-color);
-  box-shadow: 
+  box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.3),
     0 0 0 1px rgba(255, 255, 255, 0.1);
-  transition: none; /* Disable transitions while dragging */
+  transition: none;
+  /* Disable transitions while dragging */
   border-radius: 12px;
 }
 
@@ -125,7 +137,7 @@
 
 /* Smooth reordering animation */
 .toolbar .btn {
-  transition: 
+  transition:
     transform calc(var(--spring-duration) * var(--motion-duration-multiplier)) var(--ease-spring),
     opacity calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
     background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
@@ -154,14 +166,14 @@
   align-items: center;
   justify-content: center;
   transform: scale(0.9);
-  transition: 
+  transition:
     opacity calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo),
     transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo),
     background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
 }
 
 /* Only show on parent hover */
-*:hover > .close-button {
+*:hover>.close-button {
   opacity: 0.7;
   transform: scale(1);
 }
@@ -197,7 +209,7 @@
   align-items: center;
   justify-content: center;
   margin-left: 10px;
-  transition: 
+  transition:
     transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-back),
     box-shadow calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
 }
@@ -232,7 +244,7 @@
   align-items: center;
   justify-content: center;
   margin-left: 10px;
-  transition: 
+  transition:
     transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-back),
     box-shadow calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
 }
@@ -247,8 +259,9 @@
   border-radius: 999px;
   font-size: 0.6rem;
   font-weight: 700;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  display: none; /* shown only when premium */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  display: none;
+  /* shown only when premium */
 }
 
 .social-button[data-social="youtube"] {
@@ -279,7 +292,7 @@
   border-radius: 50px;
   z-index: -1;
   border: 0px solid rgba(255, 255, 255, 0.411);
-  transition: 
+  transition:
     width calc(var(--spring-duration) * var(--motion-duration-multiplier)) var(--ease-spring),
     height calc(var(--spring-duration) * var(--motion-duration-multiplier)) var(--ease-spring),
     opacity calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
@@ -306,7 +319,7 @@
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 500;
-  transition: 
+  transition:
     background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
     transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo),
     box-shadow calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart);
@@ -333,7 +346,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  transition: 
+  transition:
     color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
     background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
     transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo);
@@ -359,7 +372,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  transition: 
+  transition:
     color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
     background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
     transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo);
@@ -388,7 +401,8 @@
 
 /* Custom buttons container alignment */
 #custom-buttons-container {
-  display: contents; /* Makes container transparent to flex layout */
+  display: contents;
+  /* Makes container transparent to flex layout */
 }
 
 #custom-buttons-container .btn {
@@ -399,7 +413,7 @@
 
 /* Premium scroll-aware button animations */
 .toolbar.scrolling .btn {
-  transition: 
+  transition:
     transform calc(var(--quick-duration) * var(--motion-duration-multiplier)) var(--ease-out-expo),
     opacity calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),
     background-color calc(var(--standard-duration) * var(--motion-duration-multiplier)) var(--ease-out-quart),

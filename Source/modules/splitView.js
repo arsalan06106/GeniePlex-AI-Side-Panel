@@ -210,8 +210,10 @@ export class SplitViewManager {
       const iframeContainer = document.getElementById('iframe-container');
       if (iframeContainer) {
         iframeContainer.style.width = '100%';
+        iframeContainer.style.flex = '1'; // Ensure it takes full space if flexbox is used
       }
       iframe.style.width = '100%';
+      iframe.style.height = '100%';
 
       // exit split view mode
       this.splitView = false;

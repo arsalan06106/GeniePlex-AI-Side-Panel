@@ -1,148 +1,96 @@
-/* Premium Animation System - Natural, Performant, Accessible */
+/* Material 3 Expressive Animations */
 
-/* Fundamental Keyframe Animations */
-@keyframes smooth-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(calc(8px * var(--motion-scale))) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+:root {
+  /* Material 3 Easing Curves */
+  --ease-linear: cubic-bezier(0, 0, 1, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-standard-accelerate: cubic-bezier(0.3, 0, 1, 1);
+  --ease-standard-decelerate: cubic-bezier(0, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --ease-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+
+  /* Durations */
+  --duration-short1: 50ms;
+  --duration-short2: 100ms;
+  --duration-short3: 150ms;
+  --duration-short4: 200ms;
+  --duration-medium1: 250ms;
+  --duration-medium2: 300ms;
+  --duration-medium3: 350ms;
+  --duration-medium4: 400ms;
+  --duration-long1: 450ms;
+  --duration-long2: 500ms;
+  --duration-long3: 550ms;
+  --duration-long4: 600ms;
+  --duration-extra-long1: 700ms;
+  --duration-extra-long2: 800ms;
+  --duration-extra-long3: 900ms;
+  --duration-extra-long4: 1000ms;
 }
 
-@keyframes smooth-slide-up {
-  from {
-    transform: translate(-50%, calc(100% * var(--motion-scale))) scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: translate(-50%, 0) scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes smooth-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Premium Spring Entrance Animation */
-@keyframes spring-entrance {
+/* Content Switching Animations */
+@keyframes fade-in-scale {
   0% {
     opacity: 0;
-    transform: scale(0.3) translateY(calc(100px * var(--motion-scale)));
+    transform: scale(0.98);
   }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05) translateY(calc(-10px * var(--motion-scale)));
-  }
-  75% {
-    opacity: 0.95;
-    transform: scale(0.98) translateY(calc(2px * var(--motion-scale)));
-  }
+
   100% {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: scale(1);
   }
 }
 
-/* Subtle Hover Scale Animation */
-@keyframes gentle-scale {
+@keyframes fade-out-scale {
   0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(calc(1 + 0.02 * var(--motion-scale)));
-  }
-}
-
-/* Glow pulse animation for drop target */
-@keyframes glow-pulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.7;
-    filter: brightness(1);
-  }
-  50% {
-    transform: scale(calc(1 + 0.01 * var(--motion-scale)));
-    opacity: 0.5;
-    filter: brightness(1.2);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.7;
-    filter: brightness(1);
-  }
-}
-
-/* Breathe Animation for Loading States */
-@keyframes breathe {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
     opacity: 1;
-    transform: scale(calc(1 + 0.05 * var(--motion-scale)));
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.02);
   }
 }
 
-/* Subtle Bounce for Interactive Elements */
-@keyframes subtle-bounce {
-  0%, 100% {
-    transform: translateY(0) scale(1);
+@keyframes slide-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
   }
-  25% {
-    transform: translateY(calc(-2px * var(--motion-scale))) scale(1.01);
-  }
-  50% {
-    transform: translateY(calc(-4px * var(--motion-scale))) scale(1.02);
-  }
-  75% {
-    transform: translateY(calc(-1px * var(--motion-scale))) scale(1.01);
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-/* Reduced Motion Fallbacks */
-@media (prefers-reduced-motion: reduce) {
-  @keyframes smooth-fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+@keyframes slide-out-left {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
   }
-  
-  @keyframes smooth-slide-up {
-    from { opacity: 0; }
-    to { opacity: 1; }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-30px);
   }
-  
-  @keyframes spring-entrance {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes gentle-scale {
-    from { opacity: 0.8; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes glow-pulse {
-    from { opacity: 0.8; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes breathe {
-    from { opacity: 0.8; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes subtle-bounce {
-    from { opacity: 0.8; }
-    to { opacity: 1; }
-  }
+}
+
+/* Classes to apply animations */
+.animate-enter {
+  animation: fade-in-scale var(--duration-medium2) var(--ease-emphasized-decelerate) forwards;
+}
+
+.animate-exit {
+  animation: fade-out-scale var(--duration-short4) var(--ease-emphasized-accelerate) forwards;
+}
+
+/* Navbar Indicator Animation */
+.active-indicator {
+  transition:
+    transform var(--duration-medium4) var(--ease-emphasized),
+    width var(--duration-medium2) var(--ease-emphasized),
+    background-color var(--duration-medium2) var(--ease-standard);
 }

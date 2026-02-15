@@ -37,9 +37,16 @@ export class NavBarManager {
       if (!target) return;
       const targetRect = target.getBoundingClientRect();
       const toolbarRect = toolbar.getBoundingClientRect();
-      const offsetLeft = targetRect.left - toolbarRect.left;
       
-      activeIndicator.style.transform = `translateX(${offsetLeft}px)`;
+      // Calculate relative position accounting for scroll
+      const relativeLeft = targetRect.left - toolbarRect.left + toolbar.scrollLeft;
+      const relativeTop = targetRect.top - toolbarRect.top;
+      
+      activeIndicator.style.transform = `translateX(${relativeLeft}px)`;
+      // Ensure width matches target
+      activeIndicator.style.width = `${targetRect.width}px`;
+      activeIndicator.style.height = `${targetRect.height}px`;
+      activeIndicator.style.top = `${relativeTop}px`;
     };
 
     // Set initial position
@@ -246,9 +253,19 @@ export class NavBarManager {
     const label = modelLabel || this.getModelLabelForUrl(url);
     this._currentModelLabel = label;
 
-    // Hide all iframes
+    // Hide all iframes (except target if it exists)
     iframes.forEach(iframe => {
-      iframe.style.display = 'none';
+      if (iframe !== targetIframe) {
+        iframe.classList.remove('animate-enter');
+        iframe.classList.add('animate-exit');
+        
+        // Wait for animation to finish before hiding
+        setTimeout(() => {
+          iframe.style.display = 'none';
+          iframe.classList.remove('animate-exit');
+        }, 200); // Match animation duration
+      }
+      
       // Remove main-iframe ID from all iframes
       if (iframe.id === 'main-iframe') {
         iframe.id = '';
@@ -256,9 +273,14 @@ export class NavBarManager {
     });
 
     if (targetIframe) {
-      // Iframe already cached - show instantly, NO loader
+      // Iframe already cached - show instantly with animation
       targetIframe.style.display = 'block';
       targetIframe.id = 'main-iframe'; // Set as main iframe for split view
+      
+      // Remove exit class if present and add enter class
+      targetIframe.classList.remove('animate-exit');
+      targetIframe.classList.add('animate-enter');
+      
       this.toggleLoadingState(false);
     } else {
       // New iframe - show loader
@@ -298,9 +320,15 @@ export class NavBarManager {
 
     const targetRect = target.getBoundingClientRect();
     const toolbarRect = toolbar.getBoundingClientRect();
-    const offsetLeft = targetRect.left - toolbarRect.left;
     
-    activeIndicator.style.transform = `translateX(${offsetLeft}px)`;
+    // Calculate relative position accounting for scroll
+    const relativeLeft = targetRect.left - toolbarRect.left + toolbar.scrollLeft;
+    const relativeTop = targetRect.top - toolbarRect.top;
+    
+    activeIndicator.style.transform = `translateX(${relativeLeft}px)`;
+    activeIndicator.style.width = `${targetRect.width}px`;
+    activeIndicator.style.height = `${targetRect.height}px`;
+    activeIndicator.style.top = `${relativeTop}px`;
   }
 
   initializeLoadingState() {

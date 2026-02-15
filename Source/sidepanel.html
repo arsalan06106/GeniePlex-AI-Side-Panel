@@ -171,13 +171,13 @@
         <button class="btn" data-url="https://chat.mistral.ai/chat" data-label="Mistral"
           draggable="true">
           <div class="state-layer"></div>
-          <img src="logos/mistral.svg" alt="Mistral Icon" class="toolbar-icon invert-color" draggable="true" />
+          <img src="logos/mistral.svg" alt="Mistral Icon" class="toolbar-icon" draggable="true" />
           <!-- <span>Mistral</span> -->
         </button>
         <button class="btn" data-url="https://www.perplexity.ai/discover" data-label="Perplexity"
           draggable="true">
           <div class="state-layer"></div>
-          <img src="logos/perplexity.svg" alt="Perplexity Icon" class="toolbar-icon invert-color" draggable="true" />
+          <img src="logos/perplexity.svg" alt="Perplexity Icon" class="toolbar-icon" draggable="true" />
           <!-- <span>Perplexity</span> -->
         </button>
         <button class="btn" data-url="https://chat.qwen.ai/" data-label="Qwen"
@@ -189,7 +189,7 @@
         <button class="btn" data-url="https://www.kimi.com" data-label="Kimi"
           draggable="true">
           <div class="state-layer"></div>
-          <img src="logos/kimi.svg" alt="Kimi Icon" class="toolbar-icon" draggable="true" />
+          <img src="logos/kimi.svg" alt="Kimi Icon" class="toolbar-icon invert-color" draggable="true" />
           <!-- <span>Kimi</span> -->
         </button>
         <button class="btn" data-url="https://github.com/copilot" data-label="GitHub Copilot"
@@ -255,16 +255,16 @@
                   <img src="logos/grok.svg" class="toggle-icon invert-color" alt="Grok"><span>Grok</span><label class="switch"><input type="checkbox" id="toggle-grok" checked><span class="slider"></span></label>
                 </div>
                 <div class="toggle-item">
-                  <img src="logos/mistral.svg" class="toggle-icon invert-color" alt="Mistral"><span>Mistral</span><label class="switch"><input type="checkbox" id="toggle-mistral"><span class="slider"></span></label>
+                  <img src="logos/mistral.svg" class="toggle-icon" alt="Mistral"><span>Mistral</span><label class="switch"><input type="checkbox" id="toggle-mistral"><span class="slider"></span></label>
                 </div>
                 <div class="toggle-item">
-                  <img src="logos/perplexity.svg" class="toggle-icon invert-color" alt="Perplexity"><span>Perplexity</span><label class="switch"><input type="checkbox" id="toggle-perplexity"><span class="slider"></span></label>
+                  <img src="logos/perplexity.svg" class="toggle-icon" alt="Perplexity"><span>Perplexity</span><label class="switch"><input type="checkbox" id="toggle-perplexity"><span class="slider"></span></label>
                 </div>
                 <div class="toggle-item">
                   <img src="logos/qwen.svg" class="toggle-icon invert-color" alt="Qwen"><span>Qwen</span><label class="switch"><input type="checkbox" id="toggle-qwen"><span class="slider"></span></label>
                 </div>
                 <div class="toggle-item">
-                  <img src="logos/kimi.svg" class="toggle-icon" alt="Kimi"><span>Kimi</span><label class="switch"><input type="checkbox" id="toggle-kimi"><span class="slider"></span></label>
+                  <img src="logos/kimi.svg" class="toggle-icon invert-color" alt="Kimi"><span>Kimi</span><label class="switch"><input type="checkbox" id="toggle-kimi"><span class="slider"></span></label>
                 </div>
                 <div class="toggle-item">
                   <img src="logos/githubcopilot.svg" class="toggle-icon invert-color" alt="GitHub Copilot"><span>GitHub Copilot</span><label class="switch"><input type="checkbox" id="toggle-githubcopilot"><span class="slider"></span></label>
@@ -315,7 +315,6 @@
               <p class="section-subtitle">Add your own sites to the toolbar. Give it a friendly name, we’ll fetch the favicon.</p>
               <div class="add-link-form" role="group" aria-label="Add custom link">
                 <input type="text" id="custom-link-url-input" placeholder="URL (https://example.com)" aria-label="URL" />
-                <input type="text" id="custom-link-name-input" placeholder="Name (optional)" aria-label="Name" />
                 <button id="add-link-btn" aria-label="Add custom link" data-i18n="add">Add</button>
               </div>
               <div id="custom-links-list" class="toggle-list" aria-live="polite"></div>

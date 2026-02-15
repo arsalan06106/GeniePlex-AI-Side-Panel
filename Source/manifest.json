@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "GeniePlex AI Side Panel",
+  "name": "GeniePlex Ultimate AI Side Panel",
   "permissions": [
     "sidePanel",
     "activeTab",
@@ -9,7 +9,7 @@
     "commands"
   ],
   "description": "Access all your favorite AI tools instantly in your Chrome side panel. Boost productivity with a split-screen workflow.",
-  "version": "0.2.8",
+  "version": "0.3.3",
   "side_panel": {
     "default_path": "sidepanel.html"
   },
@@ -20,8 +20,8 @@
     "16": "images/icon16.png"
   },
   "background": {
-  "service_worker": "background.js",
-  "type": "module"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "web_accessible_resources": [
     {

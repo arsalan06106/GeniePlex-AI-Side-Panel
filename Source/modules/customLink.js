@@ -13,41 +13,33 @@ export class CustomLinkManager {
     const addLinkBtn = document.getElementById('add-link-btn');
     if (addLinkBtn) {
       addLinkBtn.addEventListener('click', () => {
-        // Support new two-field design (URL + Name) with fallback to legacy single field
+        // Support new single-field design
         const urlEl = document.getElementById('custom-link-url-input') || document.getElementById('custom-link-input');
-        const nameEl = document.getElementById('custom-link-name-input');
         const url = (urlEl?.value || '').trim();
-        const name = (nameEl?.value || '').trim();
         if (url) {
-          const result = this.addCustomLink(url, name);
+          const result = this.addCustomLink(url);
           if (result) {
             if (urlEl) urlEl.value = '';
-            if (nameEl) nameEl.value = '';
           }
         }
       });
     }
 
-    // Allow adding custom links with Enter key (any of the inputs)
+    // Allow adding custom links with Enter key
     const enterHandler = (e) => {
       if (e.key === 'Enter') {
         const urlEl = document.getElementById('custom-link-url-input') || document.getElementById('custom-link-input');
-        const nameEl = document.getElementById('custom-link-name-input');
         const url = (urlEl?.value || '').trim();
-        const name = (nameEl?.value || '').trim();
         if (url) {
-          const result = this.addCustomLink(url, name);
+          const result = this.addCustomLink(url);
           if (result) {
             if (urlEl) urlEl.value = '';
-            if (nameEl) nameEl.value = '';
           }
         }
       }
     };
     const urlInput = document.getElementById('custom-link-url-input') || document.getElementById('custom-link-input');
     urlInput?.addEventListener('keypress', enterHandler);
-    const nameInput = document.getElementById('custom-link-name-input');
-    nameInput?.addEventListener('keypress', enterHandler);
 
     // Delete custom link handler
     const customLinksList = document.getElementById('custom-links-list');
